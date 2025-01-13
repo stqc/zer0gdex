@@ -1,0 +1,15 @@
+.slider-range {
+    margin: 20px 0;
+    display: flex;
+  }
+  
+  .slider-range input {
+    width: 100%;
+    margin: 10px 0;
+  }
+  
+  .slider-values {
+    display: flex;
+    justify-content: space-between;
+  }
+  

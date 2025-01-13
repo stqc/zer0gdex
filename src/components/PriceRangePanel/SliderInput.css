@@ -1,0 +1,63 @@
+.slider-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    flex: 1;
+    margin: 0 10px;
+    color: black;
+  }
+  
+  .slider-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #6e6e7a;
+  }
+  
+  .slider-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .slider-button {
+    background: #d291ff;
+    border: none;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .slider-button:hover {
+    background: #8a2be2;
+  }
+  
+  .slider-control input {
+    width: 80px;
+    text-align: center;
+    font-size: 18px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .slider-unit {
+    font-size: 12px;
+    font-weight: 400;
+    color: #6e6e7a;
+    margin-top: 5px;
+  }
+  

@@ -1,0 +1,156 @@
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    width: 400px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-content h3 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+  
+  .token-search {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .token-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+  }
+  
+  .token-list-item {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    background: #f7f0fa;
+    transition: background 0.3s;
+  }
+  
+  .token-list-item:hover {
+    background: #e2d8f0;
+  }
+  
+  .close-modal {
+    padding: 10px 20px;
+    background: #d084ef;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .close-modal:hover {
+    background: #b56cd8;
+  }
+  
+  /* SwapComponent.css */
+
+.swap-container {
+    width: 400px;
+    margin: 0 auto;
+    background: #f7f0fa;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .swap-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .swap-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    background: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    color: black;
+  }
+  
+  .amount-input {
+    flex: 1;
+    font-size: 1.2rem;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: black;
+  }
+  
+  .token-selector {
+    display: flex;
+    align-items: center;
+  }
+  
+  .token-dropdown {
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+  
+  .max-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #a0a0a0;
+  }
+  
+  .price-info {
+    font-size: 1rem;
+    color: #a0a0a0;
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .swap-details {
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    margin-top: 20px;
+  }
+  
+  .swap-button {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #d084ef;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .swap-button:hover {
+    background: #b56cd8;
+  }
+  

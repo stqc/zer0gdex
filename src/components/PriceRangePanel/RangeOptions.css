@@ -1,0 +1,19 @@
+.range-options {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .range-option {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .range-option.selected {
+    border: 2px solid #8a2be2;
+  }
+  

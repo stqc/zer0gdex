@@ -1,0 +1,19 @@
+.select-pair {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+  
+  .token-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .swap-icon {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  

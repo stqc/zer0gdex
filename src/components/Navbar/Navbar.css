@@ -1,0 +1,75 @@
+/* Navbar Container */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    margin: 10px;
+  }
+  
+  /* Logo Section */
+  .navbar-left .logo span {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-transform: lowercase;
+    font-family: "Arial", sans-serif;
+  }
+  
+  /* Navigation Links */
+  .navbar-center nav {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar-center nav a {
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .navbar-center nav a:hover {
+    color: #8a2be2;
+  }
+  
+  /* Badge for "Soon" */
+  .badge {
+    font-size: 12px;
+    color: white;
+    background-color: #8a2be2;
+    border-radius: 12px;
+    padding: 2px 6px;
+    margin-left: 4px;
+  }
+  
+  /* Right Section */
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  /* Icon */
+  .navbar-right .icon img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  /* Connect Wallet Button */
+  .connect-wallet {
+    background-color: #d291ff;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .connect-wallet:hover {
+    background-color: #8a2be2;
+  }
+  
