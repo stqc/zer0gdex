@@ -2,8 +2,6 @@ import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ethers } from "ethers";
-import { useDispatch } from "react-redux";
 import { provider } from "../ContractInteractions/constants";
 
 function Navbar() {
@@ -29,8 +27,8 @@ function Navbar() {
         {/* Navigation Links */}
         <nav>
           <Link to={"/swap"}>Swap</Link>
-          <Link to="/add">Add Liquidity</Link>
-          <Link to="/manage">Manage Liquidity</Link>
+          <Link to={"/add"}>Add Liquidity</Link>
+          <Link to={"/manage"}>Manage Liquidity</Link>
           {/* <a href="#vote">
             Vote <span className="badge">Soon</span>
           </a> */}

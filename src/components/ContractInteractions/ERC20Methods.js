@@ -21,4 +21,9 @@ function createERC20Instance(address) {
     return new ethers.Contract(address, ERC20Abi, provider);
 }
 
-export { hasEnoughApproval, requestApproval, createERC20Instance };
+async function getTokenBalance(token,address){
+    const contract = createERC20Instance(token);
+    return await contract.balanceOf(address);
+}
+
+export { hasEnoughApproval, requestApproval, createERC20Instance, getTokenBalance };
