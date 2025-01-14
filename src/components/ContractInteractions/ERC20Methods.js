@@ -5,7 +5,7 @@ import { provider } from './constants';
 // Function to check if an address has enough approval
 async function hasEnoughApproval(contract, owner, spender, amount) {
     const allowance = await contract.allowance(owner, spender);
-    console.log(allowance>=amount)
+    console.log(allowance,amount)
     return allowance>=amount;
 }
 

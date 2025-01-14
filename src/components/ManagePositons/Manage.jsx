@@ -2,10 +2,12 @@ import { getLiqudityPairOfUser } from "../../ContractInteractions/LiquidityPosit
 import { useEffect,useState } from "react";
 import "./Manage.css";
 import { SingePosition } from "./SinglePosition";
+import { ManagePanel } from "./ManagePanel";
 
 export const Manage = () => {
 
     const [Positions, setPositions] = useState([]);
+    const [manageSinglePosition,updateManageSinglePosition] = useState(false);
 
     useEffect(() => {
         const fetchPositions = async () => {
@@ -18,9 +20,10 @@ export const Manage = () => {
     return (
         <div>      
             
-            {Positions.map((position,index) => {
+            {!manageSinglePosition && Positions.map((position,index) => {
                     return <SingePosition
-                        key={index+position.tokenId}
+                        key={index}
+                        id={position.tokenId}
                         token0={position.token0}
                         token1={position.token1}
                         fee={position.fee}
@@ -30,11 +33,19 @@ export const Manage = () => {
                         tokensOwed1={position.tokensOwed1}
                         liquidity0 = {position.liquidityToken0}
                         liquidity1 = {position.liquidityToken1}
+                        showManage = {updateManageSinglePosition}
+                        token0Add = {position.tokenAdd0}
+                        token1Add = {position.tokenAdd1}
+                        liquidity = {position.liquidity}
                     />
 
                         }
                     )
-            }   
+            }  
+            {
+                manageSinglePosition &&
+                <ManagePanel/>
+            } 
         </div>
     )
 
