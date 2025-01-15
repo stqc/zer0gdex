@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import { NFTPositionManagerAddress, provider, WETH } from "../ContractInteractions/constants";
 import { createERC20Instance, hasEnoughApproval, requestApproval } from "../ContractInteractions/ERC20Methods";
 
-const CreatePositionButton = () => {
+const CreatePositionButton = (props) => {
 
   let {tokenA,
     tokenB,
@@ -16,6 +16,7 @@ const CreatePositionButton = () => {
     tokenBamount,
     lowerTick,
     upperTick,
+    spacing
     } = useSelector((state)=>state.liquidityToken);
 
   const getPool = async (token0,token1) => { 
@@ -84,6 +85,10 @@ const CreatePositionButton = () => {
       tokenAamount = tokenBamount;
       tokenBamount= temp;
     }
+    console.log("updating ticks for ",spacing);
+    
+    lowerTick = Math.floor(lowerTick/spacing)*spacing;
+    upperTick = Math.floor(upperTick/spacing)*spacing;
 
     console.log("Creating position...");
 //add a check to only send ETHERS IF the current tick is lower than the position being created
