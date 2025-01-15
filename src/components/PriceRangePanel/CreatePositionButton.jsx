@@ -9,7 +9,7 @@ import { createERC20Instance, hasEnoughApproval, requestApproval } from "../Cont
 
 const CreatePositionButton = () => {
 
-  const {tokenA,
+  let {tokenA,
     tokenB,
     feeTier,
     tokenAamount,
@@ -60,23 +60,33 @@ const CreatePositionButton = () => {
     const contract0 = token0!==WETH? createERC20Instance(token0):null;
     const contract1 = token1!==WETH? createERC20Instance(token1):null; 
 
+    console.log(token0,"token 0")
+    console.log(token1,"token1")
+
+
     if(contract0){
-      const status = hasEnoughApproval(contract0,signer.address,NFTPositionManagerAddress,ethers.parseEther(tokenAamount.toString()));
+      const status =await hasEnoughApproval(contract0,signer.address,NFTPositionManagerAddress,ethers.parseEther(tokenAamount.toString()));
       if(!status){
-        requestApproval(contract0,signer,NFTPositionManagerAddress,ethers.parseEther(tokenAamount.toString()));
+        await requestApproval(contract0,signer,NFTPositionManagerAddress,ethers.parseEther(tokenAamount.toString()));
       }
     }
 
     if(contract1){
-      const status = hasEnoughApproval(contract1,signer.address,NFTPositionManagerAddress,ethers.parseEther(tokenBamount.toString()));
+      const status = await hasEnoughApproval(contract1,signer.address,NFTPositionManagerAddress,ethers.parseEther(tokenBamount.toString()));
       if(!status){
-        requestApproval(contract1,signer,NFTPositionManagerAddress,ethers.parseEther(tokenBamount.toString()));
+        await requestApproval(contract1,signer,NFTPositionManagerAddress,ethers.parseEther(tokenBamount.toString()));
       }
     }
 
+    if(token0!==tokenA){
+      console.log("switched")
+      let temp = tokenAamount;
+      tokenAamount = tokenBamount;
+      tokenBamount= temp;
+    }
 
     console.log("Creating position...");
-
+//add a check to only send ETHERS IF the current tick is lower than the position being created
     console.log(upperTick,lowerTick, feeTier)
     const tx = await contract.mint(
       {token0:token0, token1:token1, fee:feeTier ,tickLower:lowerTick, tickUpper:upperTick, recipient:signer.getAddress() ,amount0Desired:ethers.parseEther(tokenAamount.toString()), amount1Desired:ethers.parseEther(tokenBamount.toString()), amount0Min:0,amount1Min:0,
