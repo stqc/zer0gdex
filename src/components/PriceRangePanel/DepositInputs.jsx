@@ -1,30 +1,26 @@
 import React from "react";
 import "./DepositInputs.css";
+import InputComponent from "../InputComponent/InputComponent";
+import { InputElement } from "../InputComponent/InputComponent";
 
-const DepositInputs = ({setAAmount, setBAmount }) => {
+const DepositInputs = ({setAAmount, setBAmount },props) => {
   return (
     <div className="deposit-inputs">
+      <h3>Deposit Amounts</h3>
       <div className="input-group">
-        <input
-          type="number"
-          placeholder="Enter Deposit Amount"
-          onChange={(e) => setAAmount(Number(e.target.value))}
-        />
-        <div className="token-info">
-          <span></span>
-          <span>Balance: </span>
-        </div>
-      </div>
-      <div className="input-group">
-        <input
-          type="number"
-          onChange={(e) => setBAmount(Number(e.target.value))}
-          placeholder="Enter Deposit Amount"
-        />
-        <div className="token-info">
-          <span></span>
-          <span>Balance: </span>
-        </div>
+      <InputComponent>
+                    <InputElement name={props.ethAmount} updateTokenAmount={setAAmount}/>
+                    <div style={{background:"white", borderRadius:"50px", width:"50px", textAlign:"center",  cursor:"pointer"}}>
+                        <span className="max-label" style={{color:"black", fontWeight:"500"}}>Max</span>
+                    </div>
+      </InputComponent>
+
+      <InputComponent>
+                    <InputElement name={props.usdtAmount} updateTokenAmount={setBAmount}/>
+                    <div style={{background:"white", borderRadius:"50px", width:"50px", textAlign:"center",  cursor:"pointer"}}>
+                        <span className="max-label" style={{color:"black", fontWeight:"500"}}>Max</span>
+                    </div>
+      </InputComponent>
       </div>
     </div>
   );

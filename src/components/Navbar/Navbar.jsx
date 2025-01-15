@@ -3,6 +3,8 @@ import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { provider } from "../ContractInteractions/constants";
+import Logo from "../../Assets/Logo.svg";
+import ZerogLogo from "../../Assets/0g.svg"
 
 function Navbar() {
 
@@ -18,27 +20,24 @@ function Navbar() {
     <div className="navbar">
       <div className="navbar-left">
         {/* Logo */}
-        <div className="logo">
-          <span>zero</span>
+        <div className="logo" style={{height:"32px", width:"120px"}}>
+            <img src={Logo} height={"100%"} width={"100%"}/>
         </div>
       </div>
 
       <div className="navbar-center">
         {/* Navigation Links */}
         <nav>
-          <Link to={"/swap"}>Swap</Link>
-          <Link to={"/add"}>Add Liquidity</Link>
-          <Link to={"/manage"}>Manage Liquidity</Link>
-          {/* <a href="#vote">
-            Vote <span className="badge">Soon</span>
-          </a> */}
+          <Link className="link-text" to={"/swap"}>Swap</Link>
+          <Link className="link-text" to={"/add"}>Add Liquidity</Link>
+          <Link className="link-text" to={"/manage"}>Manage Liquidity</Link>
         </nav>
       </div>
 
       <div className="navbar-right">
         {/* Icons and Connect Wallet */}
         <div className="icon">
-          <img src="https://via.placeholder.com/30" alt="icon" />
+          <img src={ZerogLogo} alt="icon" height={"100%"} width={"100%"}/>
         </div>
         <button className="connect-wallet" onClick={()=>{
           connectWallet();

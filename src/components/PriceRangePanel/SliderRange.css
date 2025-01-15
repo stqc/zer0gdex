@@ -13,3 +13,13 @@
     justify-content: space-between;
   }
   
+  .error{
+    margin-top: 10px;
+    color:#E44F4F;
+    font-weight: 700;
+    padding: 2px;
+    background-color: #da81817f;
+    width: 50%;
+    border: 2px solid #E44F4F;
+    border-radius: 50px;
+  }

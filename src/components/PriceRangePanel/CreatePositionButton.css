@@ -1,11 +1,13 @@
 .create-position-button {
-    background: #d291ff;
+    background: #E074DD;
     color: white;
     padding: 10px 20px;
     border: none;
-    border-radius: 10px;
+    border-radius: 50px;
+    font-weight: 700;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem;
+    width: 100%;
   }
   
   .create-position-button:hover {

@@ -24,7 +24,7 @@ function FeeTierSelector({ selectedTier, onChange }) {
             {tier.value/10000}%
           </div>
           <div className="tier-description">{tier.description}</div>
-          <div className="tier-percent">{tier.percent}</div>
+          {/* <div className="tier-percent">{tier.percent}</div> */}
         </div>
       ))}
     </div>

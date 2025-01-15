@@ -11,15 +11,16 @@
     text-align: center;
     cursor: pointer;
     transition: 0.3s;
+    background-color: #FCF2FC;
   }
   
   .fee-tier-card.highlight {
-    border-color: #d291ff;
-    background: #f0e8ff;
+    border-color: #E074DD;
   }
   
   .fee-tier-card.selected {
-    border: 2px solid #8a2be2;
+    border: 2px solid #E074DD;
+    color:#E074DD
   }
   
   .tier-value {

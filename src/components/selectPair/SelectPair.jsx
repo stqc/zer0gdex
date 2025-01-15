@@ -9,7 +9,7 @@ function SelectPair() {
     <div className="select-pair">
       <TokenSelect  changeCurrentToken={setTokenA}/>
 
-      <div className="swap-icon">⇄</div>
+      {/* <div className="swap-icon">⇄</div> */}
 
      <TokenSelect changeCurrentToken = {setTokenB}/>
     </div>

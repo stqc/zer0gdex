@@ -58,9 +58,7 @@ const CreatePositionButton = () => {
     }
 
     const contract0 = token0!==WETH? createERC20Instance(token0):null;
-    const contract1 = token1!==WETH? createERC20Instance(token1):null;
-
-    console.log("requesting approval...");
+    const contract1 = token1!==WETH? createERC20Instance(token1):null; 
 
     if(contract0){
       const status = hasEnoughApproval(contract0,signer.address,NFTPositionManagerAddress,ethers.parseEther(tokenAamount.toString()));

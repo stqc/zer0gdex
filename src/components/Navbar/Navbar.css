@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     font-family: Arial, sans-serif;
-    margin: 10px;
+    margin: 10px 30px;
   }
   
   /* Logo Section */
@@ -16,12 +16,24 @@
     font-family: "Arial", sans-serif;
   }
   
+  .link-text{
+
+    font-weight: 700 !important;
+
+  }
+
+  .navbar-center{
+    margin-left: auto;
+    margin-right: 50px;
+  }
+
   /* Navigation Links */
   .navbar-center nav {
     display: flex;
     gap: 20px;
   }
   
+
   .navbar-center nav a {
     text-decoration: none;
     color: #000;
@@ -52,21 +64,21 @@
   
   /* Icon */
   .navbar-right .icon img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    width: 85px;
+    height: 50px;
   }
   
   /* Connect Wallet Button */
   .connect-wallet {
-    background-color: #d291ff;
+    background-color: #E074DD;
     border: none;
     color: white;
     padding: 8px 16px;
     font-size: 16px;
-    border-radius: 20px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: 600;
+    height: 50px;
   }
   
   .connect-wallet:hover {

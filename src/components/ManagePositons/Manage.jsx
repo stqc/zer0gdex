@@ -44,7 +44,7 @@ export const Manage = () => {
             }  
             {
                 manageSinglePosition &&
-                <ManagePanel/>
+                <ManagePanel showManage={updateManageSinglePosition}/>
             } 
         </div>
     )

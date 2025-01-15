@@ -15,6 +15,8 @@ const PriceRangePanel = () => {
   const tokenB = useSelector((state) => state.liquidityToken.tokenB);
   const spacing  = useSelector((state) => state.liquidityToken.spacing);
 
+  console.log(tokenA)
+
   const updateLowerTick = useCallback((tick) => {
     dispatch(setLowerTick(
       Math.floor((Math.log(tick)/Math.log(1.0001))/spacing)*spacing
@@ -45,8 +47,8 @@ const PriceRangePanel = () => {
       <RangeOptions selectedType={rangeType} onChange={setRangeType} />
 
       <div className="current-price">
-        <span>Current price:</span>
-        <strong>1870 USDT per ETH</strong>
+        <h3>Current price:</h3>
+        <strong></strong>
       </div>
 
       <SliderRange

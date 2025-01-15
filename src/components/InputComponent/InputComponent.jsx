@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './InputComponent.css';
+import ZeroLogo from "../../Assets/zer0.svg";
 
 const InputComponent = (props) => {
     return (
@@ -17,13 +18,21 @@ export const InputElement =(props)=>{
 
     return (
         <div style={{display:"flex", justifyContent:"space-between"}}>
-            <input style={{fontSize:"1.8rem",width:"100%" ,backgroundColor:"transparent", border:0, color:"black"}} placeholder='Enter Amount' type="number" onChange={(e)=>{
+            <input className='number-input' style={{fontSize:"1.4rem",width:"100%" ,fontWeight:"600" ,backgroundColor:"transparent", border:0, color:"black"}} placeholder={props.type?"Address":'0.00'} type={props.type?props.type:"number"} onChange={(e)=>{
                 props.updateTokenAmount(e.target.value);
             }}>
             </input>
-            <div>
-                <h5>{props.name}</h5>
+            {props.name && 
+            <div style={{display:"flex",gap:"10px", alignItems:"center", width:"30%", justifyContent:"flex-end"}}>
+                <div style={{height:"30px", width:"30px"}}>
+                    <img src={ZeroLogo} height={"100%"} width={"100%"}/>
+                </div>
+                <h5>
+                    {props.name}
+                </h5>
             </div>
+            }
+
         </div>
     )
 }
@@ -33,7 +42,7 @@ export const RemoveLiquidityElements =(props)=>{
     return (
         <div style={{display:"flex", flexDirection:"column"}}>
             <div style={{display:"flex", justifyContent:"space-between", alignItems:"top"}}>
-                <h3 style={{margin:0}}>{currentValue}%</h3>
+                <h2 style={{margin:0}}>{currentValue}%</h2>
                 <div style={{display:"flex", gap:"5px"}}>
                     <div className="option" onClick={()=>{UpdateCurrentValue(25);
                         props.changePercentage(25);

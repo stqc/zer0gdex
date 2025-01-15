@@ -5,10 +5,13 @@ import { setoken0,setoken1 } from "../../redux/SwapSlice";
 import { findListingToken } from "../../ContractInteractions/SearchToken";
 import { executeSwap, getBestQuote } from "../../ContractInteractions/Swap";
 import { useSelector } from "react-redux";
+import InputComponent, { InputElement } from "../InputComponent/InputComponent";
+import ZeroLogo from "../../Assets/zer0.svg";
+import DropDownLogo from "../../Assets/dropdown.svg";
 
 const SwapComponent = () => {
-  const [tokenA, setTokenA] = useState("Select Token");
-  const [tokenB, setTokenB] = useState("Select Token"); 
+  const [tokenA, setTokenA] = useState("Token");
+  const [tokenB, setTokenB] = useState("Token"); 
   const [amountA, setAmountA] = useState("");
   const [amountB, setAmountB] = useState("");
   const [price, setPrice] = useState(); // Example price
@@ -28,7 +31,9 @@ const SwapComponent = () => {
 
   return (
     <div className="swap-container">
-      <h3 className="swap-title">Swap</h3>
+      <div style={{display:"flex", marginBottom:"25px"}}>
+        <h4 className="swap-title">Swap</h4>
+      </div>
       {/* Input for Token A */}
       <SwapInput
         token={tokenA}
@@ -69,18 +74,17 @@ const SwapComponent = () => {
 
 const SwapInput = ({ token, setToken, amount, setAmount, label, isToken0 }) => {
   return (
-    <div className="swap-input">
-      <input
-        type="number"
-        onChange={(e) => setAmount(e.target.value)}
-        placeholder="0.0"
-        className="amount-input"
-      />
+    <InputComponent>
+      <div style={{display:"flex"}}>
+      <InputElement updateTokenAmount={setAmount}/>
       <div className="token-selector">
-        <TokenSelector token={token} setToken={setToken} updateToken={isToken0?setoken0:setoken1} />
+        <TokenSelector token={token} setToken={setToken} updateToken={isToken0?setoken0:setoken1} />        
+      </div>
+      </div>
+      <div>
         <span className="max-label">{label}</span>
       </div>
-    </div>
+    </InputComponent>
   );
 };
 
@@ -111,12 +115,17 @@ const TokenSelector = ({ token, setToken,updateToken }) => {
       <div
         className="token-dropdown"
         onClick={() => setIsModalOpen(true)}
-        style={{display:"flex",wordWrap:"break-word", alignItems:"center"}}
+        style={{display:"flex",wordWrap:"break-word", gap:"10px", cursor:"default", width:"100px",fontWeight:"700" ,justifyContent:"space-between"}}
       >
-        <div>▼</div>
-        <div>{token}</div>
-         
-      </div>
+        
+        <div style={{height:"30px", width:"30px"}}>
+          <img src={ZeroLogo} height={"100%"} width={"100%"}/>
+        </div>
+        <div >{token}</div>
+        <div style={{height:"10px",width:"10px"}}>
+          <img src={DropDownLogo} height={"100%"} width={"100%"}/>
+        </div>
+        </div>
 
       {/* Modal */}
       {isModalOpen && (

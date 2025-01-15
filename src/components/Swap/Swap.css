@@ -74,17 +74,23 @@
 .swap-container {
     width: 400px;
     margin: 0 auto;
-    background: #f7f0fa;
+    background: white;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
   
   .swap-title {
-    font-size: 1.5rem;
+    cursor:default;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin:0;
     text-align: center;
+    color: #E074DD;
+    background-color: #FCF2FC;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
   }
   
   .swap-input {
@@ -143,14 +149,25 @@
     font-size: 1rem;
     font-weight: bold;
     color: #fff;
-    background: #d084ef;
+    background: #E074DD;
     border: none;
-    border-radius: 8px;
+    border-radius: 20px;
     cursor: pointer;
     transition: background 0.3s;
+    
   }
   
   .swap-button:hover {
     background: #b56cd8;
   }
   
+
+  .number-input::-webkit-outer-spin-button,
+  .number-input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .number-input:focus{
+    outline:none;
+  }

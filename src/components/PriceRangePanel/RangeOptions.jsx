@@ -21,8 +21,8 @@ const RangeOptions = ({ selectedType, onChange }) => {
             {selectedType === option.label && <span>✔</span>} {option.label}
           </div>
           <div className="option-info">
-            <span>Risk: {Array(option.risk).fill("●").join(" ")}</span>
-            <span>Profit: {Array(option.profit).fill("●").join(" ")}</span>
+            <span style={{color:"#5C4C5C", fontSize:"0.9rem"}}>Risk: <span style={{color:"#E44F4F", fontSize:"1.5rem"}}>{Array(option.risk).fill("●").join(" ")}</span></span>
+            <span style={{color:"#5C4C5C",fontSize:"0.9rem"}}>Profit: <span style={{color:"#14B8A9", fontSize:"1.5rem"}}>{Array(option.profit).fill("●").join(" ")}</span></span>
           </div>
         </div>
       ))}

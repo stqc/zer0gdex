@@ -19,7 +19,7 @@ const SliderInput = ({ label, value, onChange, onIncrement, onDecrement }) => {
           +
         </button>
       </div>
-      <span className="slider-unit">USDT per ETH</span>
+      <span className="slider-unit">Token per Token</span>
     </div>
   );
 };
