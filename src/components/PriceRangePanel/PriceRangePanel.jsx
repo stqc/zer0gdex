@@ -64,7 +64,7 @@ const PriceRangePanel = () => {
         setBAmount={updateTokenBamount}
       />
 
-      <CreatePositionButton updateTickLower={updateLowerTick} updateTickUpper={updateUpperTick}/>
+      <CreatePositionButton />
     </div>
   );
 };

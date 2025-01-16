@@ -99,9 +99,9 @@ export const addLiquidity = async (tokenId, token0Amount, token1Amount,token0,to
       try{
       const tx = await NFTpositionManagerContract.connect(Signer).increaseLiquidity(params,{value:value})
       const recipt = await tx.wait();
-      console.log(recipt);}
+      alert(recipt.hash);}
       catch(e){
-        console.log(e);
+        alert(e.message);
       }
 }
 
@@ -112,7 +112,7 @@ export const removeLiquidity = async (tokenId,percentage,liquidity)=>{
 
     const NFTpositionManagerContract = new ethers.Contract(NFTPositionManagerAddress,NFTPositionManagerABI,Signer);
 
-    const LiquidityToRemove = liquidity*percentage/100;
+    const LiquidityToRemove = (liquidity*percentage/100).toFixed(18);
 
     console.log(LiquidityToRemove);
 
@@ -139,9 +139,13 @@ export const removeLiquidity = async (tokenId,percentage,liquidity)=>{
         NFTpositionManagerContract.interface.encodeFunctionData('collect', [collectParams])
     ]
 
+    try{
     const tx = await NFTpositionManagerContract.multicall(multicall)
 
+   
     const reciept = await tx.wait();
-
-    console.log("removed: "+reciept);
+    alert("removed: "+reciept.hash);}
+    catch(e){
+        alert(e.message)
+    }
 }

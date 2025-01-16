@@ -88,11 +88,12 @@ const SwapInput = ({ token, setToken, amount, setAmount, label, isToken0 }) => {
   );
 };
 
-const TokenSelector = ({ token, setToken,updateToken }) => {
+export const TokenSelector = ({ token, setToken,updateToken }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const [tokens,updateTokenList] = useState([
     { name: "A0GI", address: "0x493ea9950586033ea8894b5e684bb4df6979a0d3", decimals:18 },
+    {name:"TT", address:'0x11fbB48Ba5b8403c9080a1C3d09AF3f91Ef74c60',decimals:18}
  ]);
 
   const setCurrentToken = (token) => {

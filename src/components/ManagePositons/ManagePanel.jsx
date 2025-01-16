@@ -15,14 +15,14 @@ export const ManagePanel =(props)=>{
                     props.showManage(false);
                 }}
             >
-                    <div style={{height:"20px", height:"20px"}}>
+                    <div style={{height:"20px", width:"20px"}}>
                         <img src={BackIcon} height={"100%"} width={"100%"}/>
                     </div>
                 <div className='position-logo' style={{ display:"flex",flexDirection:"row", position:"relative", gap:"1px"}}>
                     <div style={{height:"30px", width:"30px"}}>
                         <img src={ZeroLogo} height={"100%"} width={"100%"}/>
                     </div>
-                    <div style={{height:"30px", height:"30px"}}>
+                    <div style={{height:"30px", width:"30px"}}>
                         <img src={ZeroLogo} height={"100%"} width={"100%"}/>
                     </div>
                 </div>

@@ -56,6 +56,7 @@ export async function executeSwap(tokenIn,tokenOut,amountIn,feeTier){
         requestApproval(tokenInContract,Signer,RouterV3,amountIn);
     }
 
+    try{
     const tx = await routerContract.connect(Signer).exactInputSingle({
         tokenIn: tokenIn,
         tokenOut: tokenOut,
@@ -68,5 +69,9 @@ export async function executeSwap(tokenIn,tokenOut,amountIn,feeTier){
     },{value:tokenIn===WETH? amountIn:null});
 
     const recipt = await tx.wait();
-    console.log("Transaction executed:",recipt);
+    console.log(recipt.hash);
+    alert("Transaction executed:"+recipt.hash);}
+    catch(e){
+        alert(e.message)
+    }
 }

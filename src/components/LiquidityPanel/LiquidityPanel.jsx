@@ -6,6 +6,7 @@ import PriceRangePanel from "../PriceRangePanel/PriceRangePanel";
 import { useDispatch,useSelector } from "react-redux";
 import { setFeeTier,setSpacing } from "../../redux/liquidityTokenSelectorSlice";
 
+
 function LiquidityPanel() {
   
 const dispatch = useDispatch();
@@ -27,7 +28,6 @@ const handleFeeTierChange = useCallback((tier) => {
         <div className="liquidity-panel-select-fee">
             <h3>Select Pair</h3>
             <SelectPair />
-
             <h3>Select Fee Tier</h3>
             <FeeTierSelector selectedTier={selectedFeeTier} onChange={handleFeeTierChange} />
         </div>

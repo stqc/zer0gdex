@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import { NFTPositionManagerAddress, provider, WETH } from "../ContractInteractions/constants";
 import { createERC20Instance, hasEnoughApproval, requestApproval } from "../ContractInteractions/ERC20Methods";
 
-const CreatePositionButton = (props) => {
+const CreatePositionButton = () => {
 
   let {tokenA,
     tokenB,
@@ -43,9 +43,9 @@ const CreatePositionButton = (props) => {
 
   const createPosition = async () => {
 
-    const [token0, token1] = tokenA.toLowerCase() < tokenB.toLowerCase()
-  ? [tokenA, tokenB]
-  : [tokenB, tokenA];
+    const [token0, token1] = tokenA.address.toLowerCase() < tokenB.address.toLowerCase()
+  ? [tokenA.address, tokenB.address]
+  : [tokenB.address, tokenA.address];
 
     const signer = await provider.getSigner();
     
@@ -90,6 +90,7 @@ const CreatePositionButton = (props) => {
     lowerTick = Math.floor(lowerTick/spacing)*spacing;
     upperTick = Math.floor(upperTick/spacing)*spacing;
 
+    try{
     console.log("Creating position...");
 //add a check to only send ETHERS IF the current tick is lower than the position being created
     console.log(upperTick,lowerTick, feeTier)
@@ -102,11 +103,15 @@ const CreatePositionButton = (props) => {
     console.log("Transaction sent:", tx.hash);
 
     const receipt = await tx.wait();
-    console.log("Position created. Transaction receipt:", receipt);
+    alert("Position created. Transaction receipt:"+receipt.hash);
+  }catch(e){
+    alert(e.message)
   }
+}
   return (
     <button className="create-position-button" onClick={async ()=>{ createPosition()}}>Create Position</button>
   );
+
 
 };
 
