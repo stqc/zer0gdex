@@ -149,3 +149,45 @@ export const removeLiquidity = async (tokenId,percentage,liquidity)=>{
         alert(e.message)
     }
 }
+
+
+
+export const getPriceFromTick = (tick)=>{
+
+    return Math.pow(1.0001,tick)
+}
+
+export const getTokenBRequired=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
+
+    upperPrice = getPriceFromTick(upperPrice);
+
+    lowerPrice = getPriceFromTick(lowerPrice);
+
+    const sqrtCurrentPrice = Math.sqrt(currentPrice);
+    const sqrtUpperPrice = Math.sqrt(upperPrice);
+    const sqrtLowerPrice = Math.sqrt(lowerPrice);
+  
+    const liquidity = (tokenAamt * sqrtCurrentPrice * sqrtUpperPrice) / (sqrtUpperPrice - sqrtCurrentPrice);
+
+    const amountB = liquidity * (sqrtCurrentPrice - sqrtLowerPrice);
+
+    console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountB);
+    return amountB>0?amountB:0;
+}
+
+export const getTokenARequired = (tokenBamt,upperPrice,lowerPrice,currentPrice)=>{
+
+    upperPrice = getPriceFromTick(upperPrice);
+
+    lowerPrice = getPriceFromTick(lowerPrice);
+
+    const sqrtCurrentPrice = Math.sqrt(currentPrice);
+    const sqrtUpperPrice = Math.sqrt(upperPrice);
+    const sqrtLowerPrice = Math.sqrt(lowerPrice);
+    
+    const liquidity = tokenBamt / (sqrtCurrentPrice - sqrtLowerPrice);
+
+    const amountA = liquidity * (sqrtUpperPrice - sqrtCurrentPrice) / (sqrtCurrentPrice * sqrtUpperPrice);
+    console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountA);
+    return amountA>0?amountA:0;
+}

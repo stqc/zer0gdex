@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./SliderRange.css";
 import SliderInput from "./SliderInput";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+
 
 const SliderRange = ({setMinPrice, setMaxPrice }) => {
     const [minPrice, setMinPrice_] = useState(0);
     const [maxPrice, setMaxPrice_] = useState(0);
+    const {lowerTick,upperTick} = useSelector(state=>state.liquidityToken)
+
+    useEffect(()=>{
+
+      console.log(lowerTick,upperTick)
+      if(lowerTick===null){
+        setMinPrice_(0);
+      }
+      if(upperTick===0){
+        setMaxPrice_(0);
+      }
+    },[lowerTick,upperTick])
+
 
   return (
     <>   

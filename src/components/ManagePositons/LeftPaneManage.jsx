@@ -57,7 +57,6 @@ export const RightPaneManage = ({props})=>{
                 <OptionPageManage content={[
                     <p className={currentPage==="Add"?"active-tab":""} onClick={()=>{updateCurrentPage('Add')}}>{"Add"}</p>,
                     <p className={currentPage==="Remove"?"active-tab":""}onClick={()=>{updateCurrentPage('Remove')}}>{"Remove"}</p>,
-                    <p className={currentPage==="Transfer"?"active-tab":""}onClick={()=>{updateCurrentPage('Transfer')}}>{"Transfer"}</p>
                 ]}/>
            {currentPage === 'Add' &&  <>
                 <h4>{"Deposit Amounts"}</h4>

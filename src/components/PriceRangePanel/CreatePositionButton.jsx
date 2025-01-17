@@ -43,9 +43,9 @@ const CreatePositionButton = () => {
 
   const createPosition = async () => {
 
-    const [token0, token1] = tokenA.address.toLowerCase() < tokenB.address.toLowerCase()
-  ? [tokenA.address, tokenB.address]
-  : [tokenB.address, tokenA.address];
+    const [token0, token1] = tokenA.toLowerCase() < tokenB.toLowerCase()
+  ? [tokenA, tokenB]
+  : [tokenB, tokenA];
 
     const signer = await provider.getSigner();
     
@@ -54,9 +54,14 @@ const CreatePositionButton = () => {
 
     console.log(address)
 
-    if(address === ethers.ZeroAddress){
+    if(address === ethers.ZeroAddress && tokenAamount!==0 && tokenBamount!==0){
       await createPoolIfNecessary(token0,token1);
     }
+
+    if(address === ethers.ZeroAddress && (tokenAamount===0 || tokenBamount===0)){
+      alert('Pool Does Not Exist, Please fill both token A and Token B amount to continue')
+    }
+  
 
     const contract0 = token0!==WETH? createERC20Instance(token0):null;
     const contract1 = token1!==WETH? createERC20Instance(token1):null; 
@@ -64,7 +69,7 @@ const CreatePositionButton = () => {
     console.log(token0,"token 0")
     console.log(token1,"token1")
 
-
+    console.log(tokenAamount,tokenBamount)
     if(contract0){
       const status =await hasEnoughApproval(contract0,signer.address,NFTPositionManagerAddress,ethers.parseEther(tokenAamount.toString()));
       if(!status){
@@ -79,12 +84,6 @@ const CreatePositionButton = () => {
       }
     }
 
-    if(token0!==tokenA){
-      console.log("switched")
-      let temp = tokenAamount;
-      tokenAamount = tokenBamount;
-      tokenBamount= temp;
-    }
     console.log("updating ticks for ",spacing);
     
     lowerTick = Math.floor(lowerTick/spacing)*spacing;

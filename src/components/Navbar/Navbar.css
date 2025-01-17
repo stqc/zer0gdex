@@ -4,7 +4,8 @@
     align-items: center;
     justify-content: space-between;
     font-family: Arial, sans-serif;
-    margin: 10px 30px;
+    margin: 10px auto;
+    max-width: 80vw;
   }
   
   /* Logo Section */

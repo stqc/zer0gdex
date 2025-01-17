@@ -3,6 +3,8 @@
     grid-template-columns:repeat(auto-fit, minmax(500px, 1fr) ) ;
     gap:20px; 
     padding: 30px;
+    max-width: 1080px;
+    margin: auto;
   }
   
 

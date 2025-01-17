@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -15,6 +15,13 @@ function Navbar() {
       const _walletAddress = await signer.getAddress();
       setWalletAddress(_walletAddress);
   }
+
+
+  useEffect(()=>{
+    (async ()=>{
+      connectWallet();
+    })();
+  })
 
   return (
     <div className="navbar">

@@ -23,11 +23,12 @@ const handleFeeTierChange = useCallback((tier) => {
     dispatch(setSpacing(tierToSpacing[tier]));
   },[]);
 
+
   return (
     <div className="liquidity-panel">
         <div className="liquidity-panel-select-fee">
             <h3>Select Pair</h3>
-            <SelectPair />
+            <SelectPair/>
             <h3>Select Fee Tier</h3>
             <FeeTierSelector selectedTier={selectedFeeTier} onChange={handleFeeTierChange} />
         </div>

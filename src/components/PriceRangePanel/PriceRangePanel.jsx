@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import RangeOptions from "./RangeOptions";
 import SliderRange from "./SliderRange";
 import DepositInputs from "./DepositInputs";
@@ -6,6 +6,11 @@ import CreatePositionButton from "./CreatePositionButton";
 import "./PriceRangePanel.css";
 import { useDispatch,useSelector } from "react-redux";
 import { setTokenAamount,setTokenBamount,setLowerTick,setUpperTick } from "../../redux/liquidityTokenSelectorSlice";
+import { getBestQuote } from "../../ContractInteractions/Swap";
+import { ethers} from "ethers";
+import { findListingToken } from "../../ContractInteractions/SearchToken";
+import { getTokenBalance } from "../ContractInteractions/ERC20Methods";
+import { provider } from "../ContractInteractions/constants";
 
 const PriceRangePanel = () => {
 
@@ -15,7 +20,6 @@ const PriceRangePanel = () => {
   const tokenB = useSelector((state) => state.liquidityToken.tokenB);
   const spacing  = useSelector((state) => state.liquidityToken.spacing);
 
-  console.log(tokenA)
 
   const updateLowerTick = useCallback((tick) => {
     dispatch(setLowerTick(
@@ -36,9 +40,40 @@ const PriceRangePanel = () => {
     dispatch(setTokenBamount(amount));
   },[]);
 
+  const [nameToken1,setNameToken1] = useState();
+  const [nameToken0,setNameToken0] = useState();
   const [rangeType, setRangeType] = useState("Full Range");
   const [minPrice, setMinPrice] = useState();
   const [maxPrice, setMaxPrice] = useState(0);
+  const [currentPrice,setCurrentPrice] = useState(0.0)
+  const [tokenBalance0,setTokenBalance0] = useState(0);
+  const [tokenBalance1,setTokenBalance1] = useState(0);
+  const [currentPriceNumber,setCurrentPriceNumber] = useState(0);
+  useEffect(()=>{
+    
+    (async()=>{
+
+      const [token0, token1] = tokenA.toLowerCase() < tokenB.toLowerCase()
+      ? [tokenA, tokenB]
+      : [tokenB, tokenA];
+      const price = await getBestQuote(token0,token1,1);
+
+      const [token0name,] = await findListingToken(token0);
+      const [token1name,] = await findListingToken(token1);
+
+      const Signer = await provider.getSigner()
+
+      const bal0 = await getTokenBalance(token0,Signer.address)
+      const bal1 = await getTokenBalance(token1,Signer.address)
+
+      setTokenBalance0(ethers.formatEther(bal0));
+      setTokenBalance1(ethers.formatEther(bal1));
+      setNameToken1(token1name);
+      setNameToken0(token0name);
+      setCurrentPriceNumber(Number(ethers.formatEther(price.amountOut)));
+      setCurrentPrice(`${Number(ethers.formatEther(price.amountOut)).toFixed(2)} ${token0name}/${token1name}`);
+    })();
+  },[tokenA,tokenB])
 
 
   return (
@@ -48,11 +83,12 @@ const PriceRangePanel = () => {
 
       <div className="current-price">
         <h3>Current price:</h3>
-        <strong></strong>
+        <strong>{currentPrice}</strong>
       </div>
 
       <SliderRange
-        
+        token0={tokenA}
+        token1={tokenB}
         setMinPrice={updateLowerTick}
         setMaxPrice={updateUpperTick}
       />
@@ -62,6 +98,11 @@ const PriceRangePanel = () => {
         usdtAmount={tokenB}
         setAAmount={updateTokenAamount}
         setBAmount={updateTokenBamount}
+        name1={nameToken1}
+        name0={nameToken0}
+        bal0={tokenBalance0}
+        bal1={tokenBalance1}
+        price = {currentPriceNumber}
       />
 
       <CreatePositionButton />

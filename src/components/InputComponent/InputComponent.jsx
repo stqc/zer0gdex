@@ -18,12 +18,12 @@ export const InputElement =(props)=>{
 
     return (
         <div style={{display:"flex", justifyContent:"space-between"}}>
-            <input className='number-input' style={{fontSize:"1.4rem",width:"100%" ,fontWeight:"600" ,backgroundColor:"transparent", border:0, color:"black"}} placeholder={props.type?"Address":'0.00'} type={props.type?props.type:"number"} onChange={(e)=>{
+            <input className='number-input' value={props.value} style={{fontSize:"1.4rem",width:"100%" ,fontWeight:"600" ,backgroundColor:"transparent", border:0, color:"black"}} placeholder={props.type?"Address":'0.00'} type={props.type?props.type:"number"} onChange={(e)=>{
                 props.updateTokenAmount(e.target.value);
             }}>
             </input>
             {props.name && 
-            <div style={{display:"flex",gap:"10px", alignItems:"center", width:"30%", justifyContent:"flex-end"}}>
+            <div style={{display:"flex",gap:"10px", alignItems:"center", width:"50%", justifyContent:"flex-end"}}>
                 <div style={{height:"30px", width:"30px"}}>
                     <img src={ZeroLogo} height={"100%"} width={"100%"}/>
                 </div>

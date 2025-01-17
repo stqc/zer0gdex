@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Swap.css";
-import { useDispatch } from "react-redux";
-import { setoken0,setoken1 } from "../../redux/SwapSlice";
 import { findListingToken } from "../../ContractInteractions/SearchToken";
 import { executeSwap, getBestQuote } from "../../ContractInteractions/Swap";
 import { useSelector } from "react-redux";
 import InputComponent, { InputElement } from "../InputComponent/InputComponent";
 import ZeroLogo from "../../Assets/zer0.svg";
 import DropDownLogo from "../../Assets/dropdown.svg";
+import { ethers } from "ethers";
 
 const SwapComponent = () => {
   const [tokenA, setTokenA] = useState("Token");
   const [tokenB, setTokenB] = useState("Token"); 
-  const [amountA, setAmountA] = useState("");
-  const [amountB, setAmountB] = useState("");
-  const [price, setPrice] = useState(); // Example price
+  const [amountA, setAmountA] = useState();
+  const [amountB, setAmountB] = useState();
   const [slippage, setSlippage] = useState(); // Example slippage
   const [priceImpact, setPriceImpact] = useState(); // Example price impact
+  const [price, setPrice] = useState();
+  const [tokenAaddress,setTokenAAddress] = useState('');
+  const [tokenBaddress,setTokenBAddress] = useState('');
 
   const tokenIn = useSelector((state) => state.swapReducer.token0);
   const tokenOut = useSelector((state) => state.swapReducer.token1);
@@ -25,9 +26,36 @@ const SwapComponent = () => {
     
     console.log("Swap Executed!");
     console.log(tokenIn, tokenOut);
-    const bestQuote =await getBestQuote(tokenIn.address,tokenOut.address);
-    executeSwap(tokenIn.address,tokenOut.address,amountA,bestQuote.feeTier);
+    const bestQuote =await getBestQuote(tokenAaddress,tokenBaddress,amountA);
+    await executeSwap(tokenAaddress,tokenBaddress,amountA,bestQuote.feeTier);
 };
+
+
+useEffect(()=>{
+(async ()=>{
+  !amountA?setAmountA(0):<></>;
+  const quote =await getBestQuote(tokenAaddress,tokenBaddress,amountA)
+  const outputAmount = ethers.formatEther(quote.amountOut)
+  setAmountB(outputAmount);
+
+  const expected = Number(price)*amountA
+  const priceImpact = expected-Number(outputAmount);
+  setPriceImpact(priceImpact>0?(priceImpact*100/expected).toFixed(2):(0.01).toFixed(2));
+
+})();
+},[amountA,tokenAaddress,tokenBaddress])
+
+
+useEffect(()=>{
+  (async ()=>{
+    const quote =await getBestQuote(tokenAaddress,tokenBaddress,1)
+    const outputAmount = ethers.formatEther(quote.amountOut)
+    setPrice(outputAmount);
+
+  })();
+  },[tokenAaddress,tokenBaddress])
+
+
 
   return (
     <div className="swap-container">
@@ -42,9 +70,9 @@ const SwapComponent = () => {
         setAmount={setAmountA}
         label="MAX"
         isToken0={true}
+        setTokenAddress={setTokenAAddress}
       />
 
-      {/* Price Information */}
       <div className="price-info">
         <p>1 {tokenA} = {price} {tokenB}</p>
       </div>
@@ -55,8 +83,9 @@ const SwapComponent = () => {
         setToken={setTokenB}
         amount={amountB}
         setAmount={setAmountB}
-        label="MAX"
+        label=""
         isToken0={false}
+        setTokenAddress={setTokenBAddress}
       />
 
       {/* Swap Details */}
@@ -72,13 +101,13 @@ const SwapComponent = () => {
   );
 };
 
-const SwapInput = ({ token, setToken, amount, setAmount, label, isToken0 }) => {
+const SwapInput = ({ token, setToken, amount, setAmount, label, setTokenAddress }) => {
   return (
     <InputComponent>
       <div style={{display:"flex"}}>
-      <InputElement updateTokenAmount={setAmount}/>
+      <InputElement updateTokenAmount={setAmount} value={amount}/>
       <div className="token-selector">
-        <TokenSelector token={token} setToken={setToken} updateToken={isToken0?setoken0:setoken1} />        
+        <TokenSelector token={token} setToken={setToken} updateToken={setTokenAddress} />        
       </div>
       </div>
       <div>
@@ -90,14 +119,13 @@ const SwapInput = ({ token, setToken, amount, setAmount, label, isToken0 }) => {
 
 export const TokenSelector = ({ token, setToken,updateToken }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch();
   const [tokens,updateTokenList] = useState([
     { name: "A0GI", address: "0x493ea9950586033ea8894b5e684bb4df6979a0d3", decimals:18 },
     {name:"TT", address:'0x11fbB48Ba5b8403c9080a1C3d09AF3f91Ef74c60',decimals:18}
  ]);
 
   const setCurrentToken = (token) => {
-    dispatch(updateToken(token));
+    updateToken(token.address);
   }
 
   const findToken = async (address) => {
@@ -169,11 +197,10 @@ export const TokenSelector = ({ token, setToken,updateToken }) => {
   );
 };
 
-const SwapDetails = ({ minReceived, slippage, priceImpact }) => {
+const SwapDetails = ({ minReceived, priceImpact }) => {
   return (
     <div className="swap-details">
       <p>Minimum Received: {minReceived}</p>
-      <p>Slippage: {slippage}%</p>
       <p>Price Impact: {priceImpact}%</p>
     </div>
   );

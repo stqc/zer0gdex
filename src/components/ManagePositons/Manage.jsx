@@ -18,7 +18,7 @@ export const Manage = () => {
     },[])
 
     return (
-        <div>      
+        <div style={{maxWidth:"1080px", margin:"auto"}}>      
             
             {!manageSinglePosition && Positions.map((position,index) => {
                     return <SingePosition

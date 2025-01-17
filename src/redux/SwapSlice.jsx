@@ -5,7 +5,8 @@ const SwapSlice = createSlice({
     name:"Swap",
     initialState:{
         token0:"",
-        token1:""
+        token1:"",
+        poolAddress:""
     },
     reducers:{
         setoken0 : (state,action)=>{
@@ -13,6 +14,9 @@ const SwapSlice = createSlice({
         },
         setoken1 : (state,action)=>{
             state.token1 = action.payload;
+        },
+        setPoolAddress: (state,action)=>{
+            state.poolAddress = action.payload;
         }
     }
 })
