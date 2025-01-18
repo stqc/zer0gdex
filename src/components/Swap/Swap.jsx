@@ -137,7 +137,12 @@ export const TokenSelector = ({ token, setToken,updateToken }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokens,updateTokenList] = useState([
     { name: "A0GI", address: "0x493ea9950586033ea8894b5e684bb4df6979a0d3", decimals:18 },
-    {name:"TT", address:'0x11fbB48Ba5b8403c9080a1C3d09AF3f91Ef74c60',decimals:18}
+    {name:"TT", address:'0x11fbB48Ba5b8403c9080a1C3d09AF3f91Ef74c60',decimals:18},
+    {name:"Shib",address:'0xA0FFd008375Cf9a44BEae228794BF39283b43E66',decimals:18},
+    {name:'MIKE',address:"0xa406Ad44348Bb07980973F6cf707E807201e8291",decimals:18},
+    {name:'CHASE',address:"0xb94f411101e7E544C5f89329fBD32A272859fab4",decimals:18},
+    {name:"WADE",address:"0xC58A321042268811cb93a6A4F3d6DE4cC1B0A83B",decimals:18},
+    {name:'JD',address:"0xEFaaDea9110723Aca5793FD9C45190E1F5e5b45B",decimals:18}
  ]);
 
   const setCurrentToken = (token) => {

@@ -31,7 +31,7 @@ const CreatePositionButton = () => {
   const createPoolIfNecessary = async (token0,token1) => {
     const signer = await provider.getSigner();
     const contract  = new ethers.Contract("0xdEA2e2AF102F95cc688E12BB4AFAEE36D7082434", NFTPositionManagerABI,signer);
-    const sqrtPrice = Math.sqrt((tokenAamount/tokenBamount));
+    const sqrtPrice = Math.sqrt((tokenAamount*1e18)/(tokenBamount*1e18));
     const sqrtPricex96 = BigInt(Math.floor(sqrtPrice*2**96)); 
     const tx = await contract.createAndInitializePoolIfNecessary(token0, token1, feeTier,sqrtPricex96);
     console.log("Transaction sent:", tx.hash);
@@ -63,8 +63,8 @@ const CreatePositionButton = () => {
     }
   
 
-    const contract0 = token0!==WETH? createERC20Instance(token0):null;
-    const contract1 = token1!==WETH? createERC20Instance(token1):null; 
+    const contract0 = token0.toLowerCase()!==WETH.toLowerCase()? createERC20Instance(token0):null;
+    const contract1 = token1.toLowerCase()!==WETH.toLowerCase()? createERC20Instance(token1):null; 
 
     console.log(token0,"token 0")
     console.log(token1,"token1")
@@ -92,12 +92,12 @@ const CreatePositionButton = () => {
     try{
     console.log("Creating position...");
 //add a check to only send ETHERS IF the current tick is lower than the position being created
-    console.log(upperTick,lowerTick, feeTier)
+    console.log(upperTick,lowerTick, feeTier,ethers.parseEther(tokenAamount.toString()),tokenBamount,token0,token1)
     const tx = await contract.mint(
       {token0:token0, token1:token1, fee:feeTier ,tickLower:lowerTick, tickUpper:upperTick, recipient:signer.getAddress() ,amount0Desired:ethers.parseEther(tokenAamount.toString()), amount1Desired:ethers.parseEther(tokenBamount.toString()), amount0Min:0,amount1Min:0,
         deadline:BigInt(Math.floor(Date.now()/1000)+60*10)
       },
-      {value:ethers.parseEther(tokenBamount.toString())}
+      {value:token1.toLowerCase()===WETH.toLowerCase()?ethers.parseEther(tokenBamount.toString()):null}
   );
     console.log("Transaction sent:", tx.hash);
 

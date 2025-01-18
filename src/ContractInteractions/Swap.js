@@ -49,7 +49,7 @@ export async function executeSwap(tokenIn,tokenOut,amountIn,feeTier){
     
     const tokenInContract = new ethers.Contract(tokenIn,ERC20Abi,provider);
 
-    const approvalNotRequired =await tokenIn!==WETH?hasEnoughApproval(tokenInContract,Signer.address,RouterV3,amountIn):true;
+    const approvalNotRequired = tokenIn!==WETH?await hasEnoughApproval(tokenInContract,Signer.address,RouterV3,amountIn):true;
 
     if(!approvalNotRequired){
         await requestApproval(tokenInContract,Signer,RouterV3,amountIn);
