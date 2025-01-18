@@ -65,7 +65,7 @@ export async function executeSwap(tokenIn,tokenOut,amountIn,feeTier){
         amountIn: amountIn,
         amountOutMinimum: 0,
         sqrtPriceLimitX96: 0
-    },{value:tokenIn===WETH? amountIn:null});
+    },{value:tokenIn.toLowerCase()===WETH.toLowerCase()? amountIn:null});
 
     const recipt = await tx.wait();
     console.log(recipt.hash);
