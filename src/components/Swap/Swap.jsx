@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Swap.css";
-import { findListingToken } from "../../ContractInteractions/SearchToken";
+import { findListingToken, getBalanceOfUser } from "../../ContractInteractions/SearchToken";
 import { executeSwap, getBestQuote } from "../../ContractInteractions/Swap";
 import { useSelector } from "react-redux";
 import InputComponent, { InputElement } from "../InputComponent/InputComponent";
@@ -18,6 +18,8 @@ const SwapComponent = () => {
   const [price, setPrice] = useState();
   const [tokenAaddress,setTokenAAddress] = useState('');
   const [tokenBaddress,setTokenBAddress] = useState('');
+  const [tokenBalanceA,setTokenBalanceA] = useState(0)
+  const [tokenBalanceB,setTokenBalanceB] = useState(0)
 
   const tokenIn = useSelector((state) => state.swapReducer.token0);
   const tokenOut = useSelector((state) => state.swapReducer.token1);
@@ -30,6 +32,16 @@ const SwapComponent = () => {
     await executeSwap(tokenAaddress,tokenBaddress,amountA,bestQuote.feeTier);
 };
 
+useEffect(()=>{
+
+  (async()=>{
+    const tokenA = await getBalanceOfUser(tokenAaddress)
+    console.log(tokenA)
+    setTokenBalanceA(tokenA);
+  })();
+
+
+},[tokenAaddress,tokenBaddress])
 
 useEffect(()=>{
 (async ()=>{
@@ -71,6 +83,7 @@ useEffect(()=>{
         label="MAX"
         isToken0={true}
         setTokenAddress={setTokenAAddress}
+        tokenABal ={tokenBalanceA}
       />
 
       <div className="price-info">
@@ -101,7 +114,7 @@ useEffect(()=>{
   );
 };
 
-const SwapInput = ({ token, setToken, amount, setAmount, label, setTokenAddress }) => {
+const SwapInput = ({ token, setToken, amount, setAmount, label, setTokenAddress,tokenABal }) => {
   return (
     <InputComponent>
       <div style={{display:"flex"}}>
@@ -110,8 +123,11 @@ const SwapInput = ({ token, setToken, amount, setAmount, label, setTokenAddress 
         <TokenSelector token={token} setToken={setToken} updateToken={setTokenAddress} />        
       </div>
       </div>
-      <div>
-        <span className="max-label">{label}</span>
+      <div style={{display:"flex",justifyContent:"space-between", cursor:"pointer"}}>
+        <span className="max-label" onClick={()=>{
+          setAmount(tokenABal)
+        }}>{label}</span>
+        {tokenABal && <span>{Number(tokenABal).toFixed(3)}</span>}
       </div>
     </InputComponent>
   );

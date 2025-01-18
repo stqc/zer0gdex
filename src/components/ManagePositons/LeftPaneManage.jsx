@@ -2,20 +2,28 @@ import InputComponent from "../InputComponent/InputComponent";
 import { InputElement } from "../InputComponent/InputComponent";
 import { useState } from "react";
 import { RemoveLiquidityElements } from "../InputComponent/InputComponent";
-import { addLiquidity, removeLiquidity } from "../../ContractInteractions/LiquidityPositionsManagement";
+import { addLiquidity, getTokenARequired, getTokenBRequired, removeLiquidity } from "../../ContractInteractions/LiquidityPositionsManagement";
 
-export const LeftPaneManage = ({props})=>{
+export const LeftPaneManage = ({props,price})=>{
 
     const [optionActive,updateOptionActive] = useState(1);
-
+    
     return (
         <div className="left-pane-manage">
                 <OptionPageManage content={[
                     <p className={optionActive===1?"active-tab":""} onClick={()=>{updateOptionActive(1)}}>{props.token0+" per "+props.token1}</p>,
-                    <p className={optionActive===0?"active-tab":""} onClick={()=>{updateOptionActive(0)}}>{props.token1+" per "+props.token0}</p>
+                    // <p className={optionActive===0?"active-tab":""} onClick={()=>{updateOptionActive(0)}}>{props.token1+" per "+props.token0}</p>
                 ]}/>
             <div className="range-info">
                 <RangeInfoContent left={true} tickLeft={props.tickLeft}/>
+                <div className="range-content">
+                    <div className="range-heading">
+                        Current Price
+                    </div>
+                    <div className="range-price">
+                        {price}
+                    </div>
+                </div>
                 <RangeInfoContent left={false} tickRight={props.tickRight}/>
             </div>
         </div>
@@ -46,12 +54,24 @@ const OptionPageManage = (props)=>{
             )
 }
 
-export const RightPaneManage = ({props})=>{
+export const RightPaneManage = ({props,currentPrice,tokenAbal,tokenBbal})=>{
 
     const [currentPage,updateCurrentPage] = useState('Add');
     const [token0Amount,updateToken0Amount] = useState(0);
     const [token1Amount,updateToken1Amount] = useState(0);
     const [percentage,UpdatePercentage] = useState(25);
+
+    const updateABPrice = (price)=>{
+        console.log(price);
+        updateToken0Amount(price);
+        updateToken1Amount(getTokenBRequired(price,props.tickRight,props.tickLeft,currentPrice));
+    }
+
+    const updateBAprice = (price)=>{
+        console.log(price);
+        updateToken1Amount(price);
+        updateToken0Amount(getTokenARequired(price,props.tickRight,props.tickLeft,currentPrice));
+    }
 
     return (<div className="left-pane-manage">
                 <OptionPageManage content={[
@@ -61,15 +81,29 @@ export const RightPaneManage = ({props})=>{
            {currentPage === 'Add' &&  <>
                 <h4>{"Deposit Amounts"}</h4>
                 <InputComponent>
-                    <InputElement name={props.token0} updateTokenAmount={updateToken0Amount}/>
-                    <div style={{background:"white", borderRadius:"50px", width:"50px", textAlign:"center", cursor:"pointer"}}>
-                        <span className="max-label" style={{color:"black", fontWeight:"500"}}>Max</span>
+                    <InputElement value={token0Amount} name={props.token0} updateTokenAmount={updateABPrice}/>
+                    <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <div style={{background:"white", borderRadius:"50px", width:"50px", textAlign:"center", cursor:"pointer"}}>
+                            <span className="max-label" style={{color:"black", fontWeight:"500"}} onClick={()=>{
+                                updateABPrice(tokenAbal)
+                            }}>Max</span>
+                        </div>
+                        <span>
+                            {Number(tokenAbal).toFixed(3)}
+                        </span>
                     </div>
                 </InputComponent>
                 <InputComponent>
-                    <InputElement name={props.token1} updateTokenAmount={updateToken1Amount}/>
-                    <div style={{background:"white", borderRadius:"50px", width:"50px", textAlign:"center",  cursor:"pointer"}}>
-                        <span className="max-label" style={{color:"black", fontWeight:"500"}}>Max</span>
+                    <InputElement value={token1Amount} name={props.token1} updateTokenAmount={updateBAprice}/>
+                    <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <div style={{background:"white", borderRadius:"50px", width:"50px", textAlign:"center",  cursor:"pointer"}}>
+                            <span className="max-label" style={{color:"black", fontWeight:"500"}} onClick={()=>{
+                                updateBAprice(tokenBbal);
+                            }}>Max</span>
+                        </div>
+                        <span>
+                                {Number(tokenBbal).toFixed(3)}
+                        </span>
                     </div>
                 </InputComponent>
                 <button style={{borderRadius:"50px", background:"#E074DD"}} onClick={()=>{

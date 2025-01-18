@@ -171,6 +171,10 @@ export const getTokenBRequired=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
 
     const amountB = liquidity * (sqrtCurrentPrice - sqrtLowerPrice);
 
+    if(currentPrice>upperPrice){
+        alert("Price above the specified range, 0 tokenA will be added")
+    }
+
     console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountB);
     return amountB>0?amountB:0;
 }
@@ -188,6 +192,11 @@ export const getTokenARequired = (tokenBamt,upperPrice,lowerPrice,currentPrice)=
     const liquidity = tokenBamt / (sqrtCurrentPrice - sqrtLowerPrice);
 
     const amountA = liquidity * (sqrtUpperPrice - sqrtCurrentPrice) / (sqrtCurrentPrice * sqrtUpperPrice);
+
+    if(currentPrice<lowerPrice){
+        alert("Price below the specified range, 0 tokenB will be added")
+    }
+
     console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountA);
     return amountA>0?amountA:0;
 }
