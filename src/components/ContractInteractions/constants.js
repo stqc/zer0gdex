@@ -1,6 +1,8 @@
 import { ethers } from "ethers";
 
-export const provider = new ethers.BrowserProvider(window.ethereum);
+export const provider =  window.ethereum 
+? new ethers.BrowserProvider(window.ethereum)
+: new ethers.JsonRpcProvider('https://evmrpc-testnet.0g.ai');
 
 export const WETH = "0x493ea9950586033ea8894b5e684bb4df6979a0d3";
 

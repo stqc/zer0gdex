@@ -61,6 +61,8 @@ const PriceRangePanel = () => {
       const [token0name,] = await findListingToken(token0);
       const [token1name,] = await findListingToken(token1);
 
+      setCurrentPrice(`${Number(ethers.formatEther(price.amountOut)).toFixed(2)} ${token0name}/${token1name}`);
+
       const Signer = await provider.getSigner()
 
       const bal0 = await getTokenBalance(token0,Signer.address)
@@ -71,7 +73,6 @@ const PriceRangePanel = () => {
       setNameToken1(token1name);
       setNameToken0(token0name);
       setCurrentPriceNumber(Number(ethers.formatEther(price.amountOut)));
-      setCurrentPrice(`${Number(ethers.formatEther(price.amountOut)).toFixed(2)} ${token0name}/${token1name}`);
     })();
   },[tokenA,tokenB])
 

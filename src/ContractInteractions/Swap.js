@@ -10,8 +10,7 @@ import ERC20Abi from "../components/ContractInteractions/ERC20abi.json";
 
 export async function getBestQuote( tokenIn,tokenOut, amountIn=0.00001, feeTiers=[500,3000,10000]) {
     
-    const Signer = await provider.getSigner();
-    const routerContract = new ethers.Contract(Quoter, QuoterABI, Signer);
+    const routerContract = new ethers.Contract(Quoter, QuoterABI, provider);
     amountIn = ethers.parseEther(amountIn.toString());
     
     let bestQuote = {
