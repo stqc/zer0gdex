@@ -4,17 +4,22 @@ import "./Manage.css";
 import { SingePosition } from "./SinglePosition";
 import { ManagePanel } from "./ManagePanel";
 
+export const ManageState = {}
+
 export const Manage = () => {
 
     const [Positions, setPositions] = useState([]);
     const [manageSinglePosition,updateManageSinglePosition] = useState(false);
 
+    ManageState['positions']={'action':setPositions}
+
     useEffect(() => {
-        const fetchPositions = async () => {
-            const positions = await getLiqudityPairOfUser();
-            setPositions(positions);
-        }
-        fetchPositions();
+        getLiqudityPairOfUser();
+        // const fetchPositions = async () => {
+        //     const positions = await getLiqudityPairOfUser();
+        //     // setPositions(positions);
+        // }
+        // fetchPositions();
     },[])
 
     return (

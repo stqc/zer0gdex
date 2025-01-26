@@ -6,6 +6,8 @@ import { findListingToken } from './SearchToken';
 import { getTokenBalance, hasEnoughApproval,requestApproval } from '../components/ContractInteractions/ERC20Methods';
 import FactoryABI from "../ContractInteractions/ABI/Factory.json";
 import ERC20abi from "../components/ContractInteractions/ERC20abi.json";
+import PoolABI from "../ContractInteractions/ABI/v3pool.json";
+import { ManageState } from '../components/ManagePositons/Manage';
 
 const getPool = async (token0,token1,feeTier) => { 
     
@@ -13,6 +15,40 @@ const getPool = async (token0,token1,feeTier) => {
     const address = await contract.getPool(token0, token1, feeTier);
     
     return address;
+  }
+
+
+function calculateAmount0(liquidity, sqrtPriceLower, sqrtPriceUpper, sqrtPriceCurrent) {
+    if (sqrtPriceCurrent <= sqrtPriceLower) {
+      // Current price is below range
+      return (liquidity * (sqrtPriceUpper - sqrtPriceLower)) / sqrtPriceUpper;
+    } else if (sqrtPriceCurrent < sqrtPriceUpper) {
+      // Current price is within range
+      return (liquidity * (sqrtPriceUpper - sqrtPriceCurrent)) / sqrtPriceUpper;
+    } else {
+      // Current price is above range
+      return 0n;
+    }
+  }
+  
+export function tickToPrice(tick) {
+    // Each tick represents a 0.01% (1.0001) price change
+    const price = Math.pow(1.0001, tick);
+    // Convert to fixed point number (96 decimals)
+    return BigInt(Math.floor(Math.sqrt(price) * 2n ** 96n));
+  }
+
+function calculateAmount1(liquidity, sqrtPriceLower, sqrtPriceUpper, sqrtPriceCurrent) {
+    if (sqrtPriceCurrent <= sqrtPriceLower) {
+      // Current price is below range
+      return 0n;
+    } else if (sqrtPriceCurrent < sqrtPriceUpper) {
+      // Current price is within range
+      return liquidity * (sqrtPriceCurrent - sqrtPriceLower);
+    } else {
+      // Current price is above range
+      return liquidity * (sqrtPriceUpper - sqrtPriceLower);
+    }
   }
 
 
@@ -26,11 +62,22 @@ export const getLiqudityPairOfUser = async ()=>{
 
     let userPositions = [];
     for(let i=0;i<balanceOfUser;i++){
+        
         const tokenId = await NFTpositionManagerContract.tokenOfOwnerByIndex(Signer.address,i);
+        
         const position = await NFTpositionManagerContract.positions(tokenId);
+        
         const poolAddress = await getPool(position.token0,position.token1,position.fee);
-        const balanceOfToken0 = await getTokenBalance(position.token0,poolAddress);
-        const balanceOfToken1 = await getTokenBalance(position.token1,poolAddress);
+        
+        const poolContract = new ethers.Contract(poolAddress,PoolABI,provider);
+        
+        const slot0 = await poolContract.slot0();
+
+        const balanceOfToken0 = await calculateAmount0(position.liquidity,position.tickLower,position.tickUpper,slot0.tick)
+        
+        const balanceOfToken1 = await calculateAmount1(position.liquidity,position.tickLower,position.tickUpper,slot0.tick)
+        
+        
         userPositions.push({
                 tokenId: tokenId.toString(),
                 token0:await findListingToken(position.token0),
@@ -46,6 +93,8 @@ export const getLiqudityPairOfUser = async ()=>{
                 tokenAdd1:position.token1,
                 liquidity:position.liquidity
         });
+
+        ManageState.positions.action(userPositions);
     }
 
     return userPositions;

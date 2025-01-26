@@ -7,6 +7,7 @@ import InputComponent, { InputElement } from "../InputComponent/InputComponent";
 import ZeroLogo from "../../Assets/zer0.svg";
 import DropDownLogo from "../../Assets/dropdown.svg";
 import { ethers } from "ethers";
+import SlippageControl  from "../../Assets/slippage.svg";
 
 const SwapComponent = () => {
   const [tokenA, setTokenA] = useState("Token");
@@ -71,8 +72,13 @@ useEffect(()=>{
 
   return (
     <div className="swap-container">
-      <div style={{display:"flex", marginBottom:"25px"}}>
+      <div style={{display:"flex", marginBottom:"25px",justifyContent:"space-between"}}>
         <h4 className="swap-title">Swap</h4>
+        
+        <div style={{height:"40px", width:"40px", cursor:"pointer"}} role="button">
+          <img src={SlippageControl} height={"100%"} width={"100%"}/>
+        </div>
+
       </div>
       {/* Input for Token A */}
       <SwapInput

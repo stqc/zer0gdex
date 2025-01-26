@@ -21,7 +21,7 @@ export const LeftPaneManage = ({props,price})=>{
                         Current Price
                     </div>
                     <div className="range-price">
-                        {price}
+                        {price.toFixed(3)}
                     </div>
                 </div>
                 <RangeInfoContent left={false} tickRight={props.tickRight}/>
@@ -38,7 +38,7 @@ const RangeInfoContent = (props)=>{
                     {props.left?"Min Price":"Max Price"}
                 </div>
                 <div className="range-price">
-                    {Math.pow(1.0001,props.left?props.tickLeft:props.tickRight)}
+                    {Math.pow(1.0001,props.left?props.tickLeft:props.tickRight).toFixed(3)}
                 </div>
             </div>
             )
