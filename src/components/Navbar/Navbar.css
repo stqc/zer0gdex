@@ -3,7 +3,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-family: Arial, sans-serif;
     margin: 10px auto;
     max-width: 80vw;
   }
@@ -14,7 +13,6 @@
     font-weight: bold;
     color: #000;
     text-transform: lowercase;
-    font-family: "Arial", sans-serif;
   }
   
   .link-text{
