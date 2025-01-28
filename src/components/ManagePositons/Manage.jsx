@@ -20,7 +20,12 @@ export const Manage = () => {
         //     // setPositions(positions);
         // }
         // fetchPositions();
+
     },[])
+    
+    useEffect(()=>{
+        console.log(Positions);
+    },[Positions])
 
     return (
         <div style={{maxWidth:"1080px", margin:"auto"}}>      

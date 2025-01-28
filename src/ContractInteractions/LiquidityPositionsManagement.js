@@ -96,6 +96,7 @@ export const getLiqudityPairOfUser = async ()=>{
         });
 
         ManageState.positions.action(userPositions);
+        
     }
 
     return userPositions;
