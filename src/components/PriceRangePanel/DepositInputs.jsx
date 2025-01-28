@@ -9,7 +9,7 @@ import { getTokenBRequired, getTokenARequired, getPriceFromTick } from "../../Co
 import FactoryABI from "../../ContractInteractions/ABI/Factory.json";
 import { provider } from "../ContractInteractions/constants";
 
-const DepositInputs = ({setAAmount, setBAmount,name1,name0,bal0,bal1 },props) => {
+const DepositInputs = ({setAAmount, setBAmount,name1,name0,bal0,bal1,price },props) => {
  
   const tokenA = useSelector((state) => state.liquidityToken.tokenA);
   const tokenB = useSelector((state) => state.liquidityToken.tokenB);
@@ -69,10 +69,9 @@ const DepositInputs = ({setAAmount, setBAmount,name1,name0,bal0,bal1 },props) =>
                     <input className='number-input' value={Arequired} style={{fontSize:"1.4rem",width:"100%" ,fontWeight:"600" ,backgroundColor:"transparent", border:0, color:"black"}} placeholder={props.type?"Address":'0.00'} type={props.type?props.type:"number"} onChange={(e)=>{
                           setARequired(e.target.value)
                           setAAmount(Number(e.target.value))
-                          if(!allowZero){
-                          setBRequired(getTokenBRequired(e.target.value,upperTick,lowerTick,Number(ethers.formatEther(currentPrice.amountOut))));
-                          setBAmount(getTokenBRequired(e.target.value,upperTick,lowerTick,Number(ethers.formatEther(currentPrice.amountOut))));}
-                       }}/>
+                          setBRequired(getTokenBRequired(e.target.value,upperTick,lowerTick,price));
+                          setBAmount(getTokenBRequired(e.target.value,upperTick,lowerTick,price));}
+                       }/>
                     <div style={{display:"flex",justifyContent:"space-between"}}>
                     <div style={{background:"transparent", borderRadius:"50px", width:"50px", textAlign:"center",  cursor:"pointer"}}>
                         <span className="max-label" style={{color:"black", fontWeight:"700"}}>{Number(bal0).toFixed(3)}</span>
@@ -86,10 +85,9 @@ const DepositInputs = ({setAAmount, setBAmount,name1,name0,bal0,bal1 },props) =>
       <input className='number-input' value={Brequired} style={{fontSize:"1.4rem",width:"100%" ,fontWeight:"600" ,backgroundColor:"transparent", border:0, color:"black"}} placeholder={props.type?"Address":'0.00'} type={props.type?props.type:"number"} onChange={(e)=>{
                       setBRequired(e.target.value)
                       setBAmount(Number(e.target.value))
-                      if(!allowZero){
-                      setARequired(getTokenARequired(e.target.value,upperTick,lowerTick,Number(ethers.formatEther(currentPrice.amountOut))))
-                      setAAmount(getTokenARequired(e.target.value,upperTick,lowerTick,Number(ethers.formatEther(currentPrice.amountOut))))}
-                    }}/>                    
+                      setARequired(getTokenARequired(e.target.value,upperTick,lowerTick,price))
+                      setAAmount(getTokenARequired(e.target.value,upperTick,lowerTick,price))}
+                    }/>                    
                     <div style={{display:"flex",justifyContent:"space-between"}}>
                     <div style={{background:"transparent", borderRadius:"50px", width:"50px", textAlign:"center",  cursor:"pointer", color:"transparent"}}>
                         <span className="max-label" style={{color:"black", fontWeight:"700"}}>{Number(bal1).toFixed(3)}</span>

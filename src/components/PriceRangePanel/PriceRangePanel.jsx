@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { createRef, useCallback, useEffect, useState } from "react";
 import RangeOptions from "./RangeOptions";
 import SliderRange from "./SliderRange";
 import DepositInputs from "./DepositInputs";
@@ -11,6 +11,7 @@ import { ethers} from "ethers";
 import { findListingToken } from "../../ContractInteractions/SearchToken";
 import { getTokenBalance } from "../ContractInteractions/ERC20Methods";
 import { provider } from "../ContractInteractions/constants";
+import InputComponent from "../InputComponent/InputComponent";
 
 const PriceRangePanel = () => {
 
@@ -19,7 +20,7 @@ const PriceRangePanel = () => {
   const tokenA = useSelector((state) => state.liquidityToken.tokenA);
   const tokenB = useSelector((state) => state.liquidityToken.tokenB);
   const spacing  = useSelector((state) => state.liquidityToken.spacing);
-
+  const fee = useSelector((state)=>state.liquidityToken.feeTier);
 
   const updateLowerTick = useCallback((tick) => {
     dispatch(setLowerTick(
@@ -33,6 +34,7 @@ const PriceRangePanel = () => {
   ));},[]);
 
   const updateTokenAamount = useCallback((amount) => {
+    console.log(currentPriceNumber);
     dispatch(setTokenAamount(amount));
   },[])
 
@@ -40,6 +42,7 @@ const PriceRangePanel = () => {
     dispatch(setTokenBamount(amount));
   },[]);
 
+  const priceRef = createRef();
   const [nameToken1,setNameToken1] = useState();
   const [nameToken0,setNameToken0] = useState();
   const [rangeType, setRangeType] = useState("Full Range");
@@ -57,7 +60,7 @@ const PriceRangePanel = () => {
       ? [tokenA, tokenB]
       : [tokenB, tokenA];
       const price = await getBestQuote(token0,token1,1);
-
+      console.log(price)
       const [token0name,] = await findListingToken(token0);
       const [token1name,] = await findListingToken(token1);
 
@@ -74,7 +77,7 @@ const PriceRangePanel = () => {
       setNameToken0(token0name);
       setCurrentPriceNumber(Number(ethers.formatEther(price.amountOut)));
     })();
-  },[tokenA,tokenB])
+  },[tokenA,tokenB,fee])
 
 
   return (
@@ -82,16 +85,32 @@ const PriceRangePanel = () => {
       <h3>Select Price Range</h3>
       <RangeOptions selectedType={rangeType} onChange={setRangeType} />
 
-      <div className="current-price">
+      {currentPriceNumber >0 &&<div className="current-price">
         <h3>Current price:</h3>
         <strong>{currentPrice}</strong>
-      </div>
+      </div>}
+      {currentPriceNumber<=0 && 
+        <div style={{marginTop:"10px",display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+          <InputComponent >
+            <input ref={priceRef} className='number-input' style={{fontSize:"1.2rem",width:"100%" ,fontWeight:"600" ,backgroundColor:"transparent", border:0, color:"black"}} type="number" placeholder="Enter Starting Price" onChange={(e)=>{
+                          // setCurrentPriceNumber(e.currentTarget.value)        
+            }}/>            
+            <strong>{`${nameToken0}/${nameToken1}`}</strong>
+          </InputComponent>        
+          <button onClick={()=>{
+            setCurrentPriceNumber(Number(priceRef.current.value))
+            setCurrentPrice(`${Number(priceRef.current.value)} ${nameToken0}/${nameToken1}`)
+          }}>Set Price</button>
+        </div>
+      }
 
       <SliderRange
         token0={tokenA}
         token1={tokenB}
         setMinPrice={updateLowerTick}
         setMaxPrice={updateUpperTick}
+        token0Name={nameToken0}
+        token1Name={nameToken1}
       />
 
       <DepositInputs
@@ -106,7 +125,7 @@ const PriceRangePanel = () => {
         price = {currentPriceNumber}
       />
 
-      <CreatePositionButton />
+      <CreatePositionButton price={currentPriceNumber}/>
     </div>
   );
 };

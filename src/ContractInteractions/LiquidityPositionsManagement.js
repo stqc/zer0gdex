@@ -209,46 +209,69 @@ export const getPriceFromTick = (tick)=>{
     return Math.pow(1.0001,tick)
 }
 
-export const getTokenBRequired=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
+const priceToSqrtX96 = (price) => BigInt(Math.floor(price * 2 ** 96));
 
+
+export const getTokenARequired=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
     upperPrice = getPriceFromTick(upperPrice);
 
     lowerPrice = getPriceFromTick(lowerPrice);
-
-    const sqrtCurrentPrice = Math.sqrt(currentPrice);
-    const sqrtUpperPrice = Math.sqrt(upperPrice);
-    const sqrtLowerPrice = Math.sqrt(lowerPrice);
+    
+    // const sqrtCurrentPrice = Math.sqrt(currentPrice);
+    // const sqrtUpperPrice = Math.sqrt(upperPrice);
+    // const sqrtLowerPrice = Math.sqrt(lowerPrice);
   
-    const liquidity = (tokenAamt * sqrtCurrentPrice * sqrtUpperPrice) / (sqrtUpperPrice - sqrtCurrentPrice);
+    // const liquidity = (tokenAamt * sqrtCurrentPrice * sqrtUpperPrice) / (sqrtUpperPrice - sqrtCurrentPrice);
 
-    const amountB = liquidity * (sqrtCurrentPrice - sqrtLowerPrice);
+    // const amountB = liquidity * (sqrtCurrentPrice - sqrtLowerPrice);
 
-    if(currentPrice>upperPrice){
-        alert("Price above the specified range, 0 tokenA will be added")
-    }
+    // if(currentPrice>upperPrice){
+    //     alert("Price above the specified range, 0 tokenB will be added")
+    //     return 0
+    // }
 
-    console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountB);
-    return amountB>0?amountB:0;
+    // return currentPrice>lowerPrice?tokenAamt/currentPrice:0;
+
+    // console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountB);
+    // return amountB>0?amountB:0;
+    console.log(lowerPrice,currentPrice)
+    //  if (currentPrice < lowerPrice) {
+    //     alert("Price below the specified range, 0 tokenA will be added");
+    //     return 0;
+    // }
+    if (currentPrice > upperPrice) {
+      alert("Price above the specified range, 0 tokenB will be added");
+      return 0;
+  }
+    return currentPrice > lowerPrice ? tokenAamt*currentPrice : 0;
 }
 
-export const getTokenARequired = (tokenBamt,upperPrice,lowerPrice,currentPrice)=>{
-
+export const getTokenBRequired = (tokenBamt,upperPrice,lowerPrice,currentPrice)=>{
     upperPrice = getPriceFromTick(upperPrice);
 
     lowerPrice = getPriceFromTick(lowerPrice);
 
-    const sqrtCurrentPrice = Math.sqrt(currentPrice);
-    const sqrtUpperPrice = Math.sqrt(upperPrice);
-    const sqrtLowerPrice = Math.sqrt(lowerPrice);
+    // const sqrtCurrentPrice = Math.sqrt(currentPrice);
+    // const sqrtUpperPrice = Math.sqrt(upperPrice);
+    // const sqrtLowerPrice = Math.sqrt(lowerPrice);
     
-    const liquidity = tokenBamt / (sqrtCurrentPrice - sqrtLowerPrice);
+    // const liquidity = tokenBamt / (sqrtCurrentPrice - sqrtLowerPrice);
 
-    const amountA = liquidity * (sqrtUpperPrice - sqrtCurrentPrice) / (sqrtCurrentPrice * sqrtUpperPrice);
+    // const amountA = liquidity * (sqrtUpperPrice - sqrtCurrentPrice) / (sqrtCurrentPrice * sqrtUpperPrice);
 
-    if(currentPrice<lowerPrice){
-        alert("Price below the specified range, 0 tokenB will be added")
-    }
+    // if(currentPrice<lowerPrice){
+    //     alert("Price below the specified range, 0 tokenB will be added")
+    //     return 0;
+    // }
 
-    console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountA);
-    return amountA>0?amountA:0;
+    // return currentPrice<upperPrice?tokenBamt*currentPrice:0
+
+    // console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountA);
+    // return amountA>0?amountA:0;
+    if (currentPrice < lowerPrice) {
+      alert("Price below the specified range, 0 tokenA will be added");
+      return 0;
+  }
+    
+  return currentPrice < upperPrice ? tokenBamt/currentPrice : 0;
 }

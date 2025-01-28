@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import { NFTPositionManagerAddress, provider, WETH } from "../ContractInteractions/constants";
 import { createERC20Instance, hasEnoughApproval, requestApproval } from "../ContractInteractions/ERC20Methods";
 
-const CreatePositionButton = () => {
+const CreatePositionButton = (props) => {
 
   let {tokenA,
     tokenB,
@@ -31,7 +31,7 @@ const CreatePositionButton = () => {
   const createPoolIfNecessary = async (token0,token1) => {
     const signer = await provider.getSigner();
     const contract  = new ethers.Contract("0xdEA2e2AF102F95cc688E12BB4AFAEE36D7082434", NFTPositionManagerABI,signer);
-    const sqrtPrice = Math.sqrt((tokenAamount*1e18)/(tokenBamount*1e18));
+    const sqrtPrice = Math.sqrt(props.price);
     const sqrtPricex96 = BigInt(Math.floor(sqrtPrice*2**96)); 
     const tx = await contract.createAndInitializePoolIfNecessary(token0, token1, feeTier,sqrtPricex96);
     console.log("Transaction sent:", tx.hash);
@@ -46,6 +46,9 @@ const CreatePositionButton = () => {
     const [token0, token1] = tokenA.toLowerCase() < tokenB.toLowerCase()
   ? [tokenA, tokenB]
   : [tokenB, tokenA];
+
+  console.log(token0,tokenAamount,tokenA)
+  console.log(token1,tokenBamount,tokenB)
 
     const signer = await provider.getSigner();
     
