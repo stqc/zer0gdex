@@ -95,7 +95,8 @@ export const getLiqudityPairOfUser = async ()=>{
                 liquidity:position.liquidity
         });
 
-        ManageState.positions.action(userPositions);
+        if(ManageState?.positions?.action){
+        ManageState.positions.action(userPositions);}
         
     }
 
