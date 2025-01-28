@@ -77,7 +77,8 @@ export const getLiqudityPairOfUser = async ()=>{
         
         const balanceOfToken1 = await calculateAmount1(position.liquidity,position.tickLower,position.tickUpper,slot0.tick)
         
-        
+        console.log(i);
+
         userPositions.push({
                 tokenId: tokenId.toString(),
                 token0:await findListingToken(position.token0),
