@@ -14,12 +14,11 @@ export const Manage = () => {
     ManageState['positions']={'action':setPositions}
 
     useEffect(() => {
-        getLiqudityPairOfUser();
-        // const fetchPositions = async () => {
-        //     const positions = await getLiqudityPairOfUser();
-        //     // setPositions(positions);
-        // }
-        // fetchPositions();
+        const fetchPositions = async () => {
+            const positions = await getLiqudityPairOfUser();
+            setPositions(positions);
+        }
+        fetchPositions();
 
     },[])
     
