@@ -2,7 +2,7 @@ import InputComponent from "../InputComponent/InputComponent";
 import { InputElement } from "../InputComponent/InputComponent";
 import { useState } from "react";
 import { RemoveLiquidityElements } from "../InputComponent/InputComponent";
-import { addLiquidity, getTokenARequired, getTokenBRequired, removeLiquidity } from "../../ContractInteractions/LiquidityPositionsManagement";
+import { addLiquidity, getTokenARequiredManage, getTokenBRequiredManage, removeLiquidity } from "../../ContractInteractions/LiquidityPositionsManagement";
 
 export const LeftPaneManage = ({props,price})=>{
 
@@ -21,7 +21,7 @@ export const LeftPaneManage = ({props,price})=>{
                         Current Price
                     </div>
                     <div className="range-price">
-                        {price.toFixed(3)}
+                        {price.toFixed(7)}
                     </div>
                 </div>
                 <RangeInfoContent left={false} tickRight={props.tickRight}/>
@@ -38,7 +38,7 @@ const RangeInfoContent = (props)=>{
                     {props.left?"Min Price":"Max Price"}
                 </div>
                 <div className="range-price">
-                    {Math.pow(1.0001,props.left?props.tickLeft:props.tickRight).toFixed(3)}
+                    {Math.pow(1.0001,props.left?props.tickLeft:props.tickRight).toFixed(7)}
                 </div>
             </div>
             )
@@ -64,13 +64,13 @@ export const RightPaneManage = ({props,currentPrice,tokenAbal,tokenBbal})=>{
     const updateABPrice = (price)=>{
         console.log(price);
         updateToken0Amount(price);
-        updateToken1Amount(getTokenBRequired(price,props.tickRight,props.tickLeft,currentPrice));
+        updateToken1Amount(getTokenBRequiredManage(price,props.tickRight,props.tickLeft,currentPrice));
     }
 
     const updateBAprice = (price)=>{
         console.log(price);
         updateToken1Amount(price);
-        updateToken0Amount(getTokenARequired(price,props.tickRight,props.tickLeft,currentPrice));
+        updateToken0Amount(getTokenARequiredManage(price,props.tickRight,props.tickLeft,currentPrice));
     }
 
     return (<div className="left-pane-manage">

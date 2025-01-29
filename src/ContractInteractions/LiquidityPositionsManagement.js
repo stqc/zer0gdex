@@ -27,7 +27,7 @@ function calculateAmount0(liquidity, sqrtPriceLower, sqrtPriceUpper, sqrtPriceCu
       return (liquidity * (sqrtPriceUpper - sqrtPriceCurrent)) / sqrtPriceUpper;
     } else {
       // Current price is above range
-      return 0n;
+      return 0;
     }
   }
   
@@ -35,7 +35,7 @@ export function tickToPrice(tick) {
     // Each tick represents a 0.01% (1.0001) price change
     const price = Math.pow(1.0001, tick);
     // Convert to fixed point number (96 decimals)
-    return BigInt(Math.floor(Math.sqrt(price) * 2n ** 96n));
+    return price;
   }
 
 function calculateAmount1(liquidity, sqrtPriceLower, sqrtPriceUpper, sqrtPriceCurrent) {
@@ -76,8 +76,8 @@ export const getLiqudityPairOfUser = async ()=>{
         const balanceOfToken0 = await calculateAmount0(position.liquidity,position.tickLower,position.tickUpper,slot0.tick)
         
         const balanceOfToken1 = await calculateAmount1(position.liquidity,position.tickLower,position.tickUpper,slot0.tick)
-        
-        console.log(i);
+          
+        // console.log(i);
 
         userPositions.push({
                 tokenId: tokenId.toString(),
@@ -246,7 +246,8 @@ export const getTokenARequired=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
 
 export const getTokenBRequired = (tokenBamt,upperPrice,lowerPrice,currentPrice)=>{
 
-
+    upperPrice = tickToPrice(upperPrice)
+    lowerPrice = tickToPrice(lowerPrice)
     // const sqrtCurrentPrice = Math.sqrt(currentPrice);
     // const sqrtUpperPrice = Math.sqrt(upperPrice);
     // const sqrtLowerPrice = Math.sqrt(lowerPrice);
@@ -268,6 +269,62 @@ export const getTokenBRequired = (tokenBamt,upperPrice,lowerPrice,currentPrice)=
       alert("Price below the specified range, 0 tokenA will be added");
       return 0;
   }
-    
+    console.log(upperPrice,currentPrice)
+    console.log( currentPrice < upperPrice ? tokenBamt/currentPrice : 0)
   return currentPrice < upperPrice ? tokenBamt/currentPrice : 0;
+}
+
+
+export const getTokenARequiredManage=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
+ 
+  upperPrice = 1/tickToPrice(upperPrice)
+  lowerPrice = 1/tickToPrice(lowerPrice)
+  currentPrice = 1/currentPrice;
+  // const sqrtCurrentPrice = Math.sqrt(currentPrice);
+  // const sqrtUpperPrice = Math.sqrt(upperPrice);
+  // const sqrtLowerPrice = Math.sqrt(lowerPrice);
+
+  // const liquidity = (tokenAamt * sqrtCurrentPrice * sqrtUpperPrice) / (sqrtUpperPrice - sqrtCurrentPrice);
+
+  // const amountB = liquidity * (sqrtCurrentPrice - sqrtLowerPrice);
+
+  // if(currentPrice>upperPrice){
+  //     alert("Price above the specified range, 0 tokenB will be added")
+  //     return 0
+  // }
+
+  // return currentPrice>lowerPrice?tokenAamt/currentPrice:0;
+
+  // console.log(upperPrice,lowerPrice,currentPrice,liquidity,amountB);
+  // return amountB>0?amountB:0;
+  console.log(lowerPrice,currentPrice,upperPrice)
+  //  if (currentPrice < lowerPrice) {
+  //     alert("Price below the specified range, 0 tokenA will be added");
+  //     return 0;
+  // }
+  if (currentPrice < upperPrice) {
+    alert("Price below the specified range, 0 tokenA will be added");
+    return 0;
+}
+  return currentPrice < lowerPrice ? tokenAamt*currentPrice : 0;
+}
+
+export const getTokenBRequiredManage = (tokenBamt,upperPrice,lowerPrice,currentPrice)=>{
+
+  upperPrice = tickToPrice(upperPrice);
+  lowerPrice = tickToPrice(lowerPrice);
+
+  console.log(currentPrice,upperPrice,lowerPrice)
+
+
+  // If price is above upper bound, you only provide token1
+  if (currentPrice > upperPrice) {
+      alert("Price above the specified range, only token1 is needed");
+      return 0;
+  }
+
+  // If within range, calculate the amount needed
+  // Since we're working with token1/token0 ratio:
+  // tokenB (token1) needed = tokenBamt * (1 - (currentPrice - lowerPrice)/(upperPrice - lowerPrice))
+  return currentPrice < upperPrice ? tokenBamt*currentPrice : 0;
 }
