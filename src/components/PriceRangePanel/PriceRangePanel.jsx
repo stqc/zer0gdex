@@ -23,15 +23,12 @@ const PriceRangePanel = () => {
   const fee = useSelector((state)=>state.liquidityToken.feeTier);
 
   const updateLowerTick = useCallback((tick) => {
-    dispatch(setLowerTick(
-      Math.floor((Math.log(tick)/Math.log(1.0001))/spacing)*spacing
-    ));},[]);
+    dispatch(setLowerTick(tick));
+  },[]);
 
   const updateUpperTick = useCallback((tick) => {
-    
-    dispatch(setUpperTick(
-      Math.floor((Math.log(tick)/Math.log(1.0001))/spacing)*spacing
-  ));},[]);
+    dispatch(setUpperTick(tick));
+    },[]);
 
   const updateTokenAamount = useCallback((amount) => {
     console.log(currentPriceNumber);
@@ -52,24 +49,35 @@ const PriceRangePanel = () => {
   const [tokenBalance0,setTokenBalance0] = useState(0);
   const [tokenBalance1,setTokenBalance1] = useState(0);
   const [currentPriceNumber,setCurrentPriceNumber] = useState(0);
+  const [token0,setToken0] = useState();
+  const [token1,setToken1] = useState();
+
   useEffect(()=>{
     
     (async()=>{
 
-      const [token0, token1] = tokenA.toLowerCase() < tokenB.toLowerCase()
-      ? [tokenA, tokenB]
-      : [tokenB, tokenA];
-      const price = await getBestQuote(token0,token1,1);
-      console.log(price)
-      const [token0name,] = await findListingToken(token0);
-      const [token1name,] = await findListingToken(token1);
+      // const token0Checksum = ethers.getAddress(tokenA);
+      // const token1Checksum = ethers.getAddress(tokenB);
+      // const token0Int = BigInt(token0Checksum);
+      // const token1Int = BigInt(token1Checksum);
+      // const [token0, token1] = token0Int < token1Int 
+      //   ? [token0Checksum, token1Checksum] 
+      //   : [token1Checksum, token0Checksum];
 
-      setCurrentPrice(`${Number(ethers.formatEther(price.amountOut)).toFixed(2)} ${token0name}/${token1name}`);
+      // setToken0(token0);
+      // setToken1(token1);
+
+      const price = await getBestQuote(tokenB,tokenA,1);
+      console.log(price)
+      const [token0name,] = await findListingToken(tokenA);
+      const [token1name,] = await findListingToken(tokenB);
+
+      setCurrentPrice(`${Number(ethers.formatEther(price.amountOut)).toFixed(9)} ${token0name}/${token1name}`);
 
       const Signer = await provider.getSigner()
 
-      const bal0 = await getTokenBalance(token0,Signer.address)
-      const bal1 = await getTokenBalance(token1,Signer.address)
+      const bal0 = await getTokenBalance(tokenA,Signer.address)
+      const bal1 = await getTokenBalance(tokenB,Signer.address)
 
       setTokenBalance0(ethers.formatEther(bal0));
       setTokenBalance1(ethers.formatEther(bal1));
@@ -114,8 +122,8 @@ const PriceRangePanel = () => {
       />
 
       <DepositInputs
-        ethAmount={tokenA}
-        usdtAmount={tokenB}
+        token0={token0}
+        token1={token1}
         setAAmount={updateTokenAamount}
         setBAmount={updateTokenBamount}
         name1={nameToken1}

@@ -8,8 +8,8 @@ import { NFTPositionManagerAddress, provider, WETH } from "../ContractInteractio
 import { createERC20Instance, hasEnoughApproval, requestApproval } from "../ContractInteractions/ERC20Methods";
 
 const CreatePositionButton = (props) => {
-
-  let {tokenA,
+  let {
+    tokenA,
     tokenB,
     feeTier,
     tokenAamount,
@@ -17,104 +17,179 @@ const CreatePositionButton = (props) => {
     lowerTick,
     upperTick,
     spacing
-    } = useSelector((state)=>state.liquidityToken);
+  } = useSelector((state) => state.liquidityToken);
 
-  const getPool = async (token0,token1) => { 
-    
-    const contract  = new ethers.Contract("0xe1aAD0bac492F6F46BFE1992080949401e1E90aD", FactoryABI, provider);
-    console.log(token0,token1,feeTier)
+  const getPool = async (token0, token1) => {
+    const contract = new ethers.Contract(
+      "0xe1aAD0bac492F6F46BFE1992080949401e1E90aD",
+      FactoryABI,
+      provider
+    );
     const address = await contract.getPool(token0, token1, feeTier);
-    
     return address;
-  }
+  };
 
-  const createPoolIfNecessary = async (token0,token1) => {
+  const createPoolIfNecessary = async (token0, token1, price) => {
     const signer = await provider.getSigner();
-    const contract  = new ethers.Contract("0xdEA2e2AF102F95cc688E12BB4AFAEE36D7082434", NFTPositionManagerABI,signer);
-    const sqrtPrice = Math.sqrt(props.price);
-    const sqrtPricex96 = BigInt(Math.floor(sqrtPrice*2**96)); 
-    const tx = await contract.createAndInitializePoolIfNecessary(token0, token1, feeTier,sqrtPricex96);
-    console.log("Transaction sent:", tx.hash);
+    const contract = new ethers.Contract(
+      "0xdEA2e2AF102F95cc688E12BB4AFAEE36D7082434",
+      NFTPositionManagerABI,
+      signer
+    );
+    try {
+      const tx = await contract.createAndInitializePoolIfNecessary(
+        token0,
+        token1,
+        feeTier,
+        price
+      );
+      console.log("Transaction sent:", tx.hash);
+      const receipt = await tx.wait();
+      console.log("Pool created and initialized. Transaction receipt:", receipt);
+    } catch (error) {
+      console.error("Error creating pool:", error);
+      throw error;
+    }
+  };
 
-    const receipt = await tx.wait();
-    console.log("Pool created and initialized. Transaction receipt:", receipt);
-
-  }
+  const calculateTicks = (token0IsTokenA, lowerPrice, upperPrice) => {
+    // Convert prices to token1/token0 format if needed
+    const adjustedLowerPrice = token0IsTokenA ? 1/upperPrice : lowerPrice;
+    const adjustedUpperPrice = token0IsTokenA ? 1/lowerPrice : upperPrice;
+    
+    // Calculate ticks using log base 1.0001
+    const tickLower = Math.floor(Math.log(adjustedLowerPrice) / Math.log(1.0001));
+    const tickUpper = Math.floor(Math.log(adjustedUpperPrice) / Math.log(1.0001));
+    
+    // Adjust for tick spacing
+    return {
+      tickLower: Math.floor(tickLower / spacing) * spacing,
+      tickUpper: Math.floor(tickUpper / spacing) * spacing
+    };
+  };
 
   const createPosition = async () => {
+    {
+      // Sort tokens
+      const token0Checksum = ethers.getAddress(tokenA);
+      const token1Checksum = ethers.getAddress(tokenB);
+      const token0Int = BigInt(token0Checksum);
+      const token1Int = BigInt(token1Checksum);
+      const [token0, token1] = token0Int < token1Int 
+        ? [token0Checksum, token1Checksum] 
+        : [token1Checksum, token0Checksum];
 
-    const [token0, token1] = tokenA.toLowerCase() < tokenB.toLowerCase()
-  ? [tokenA, tokenB]
-  : [tokenB, tokenA];
+      const token0IsTokenA = token0 === tokenA;
+      
+      // Calculate amounts
+      const amount0Desired = ethers.parseEther(
+        (token0IsTokenA ? tokenAamount : tokenBamount).toString()
+      );
+      const amount1Desired = ethers.parseEther(
+        (token0IsTokenA ? tokenBamount : tokenAamount).toString()
+      );
 
-  console.log(token0,tokenAamount,tokenA)
-  console.log(token1,tokenBamount,tokenB)
+      // Calculate initial sqrt price
+      const priceRatio = token0IsTokenA 
+        ? tokenBamount / tokenAamount 
+        : tokenAamount / tokenBamount;
+      const sqrtPrice = Math.sqrt(priceRatio);
+      const sqrtPricex96 = BigInt(Math.floor(sqrtPrice * 2 ** 96));
 
-    const signer = await provider.getSigner();
-    
-    const contract  = new ethers.Contract("0xdEA2e2AF102F95cc688E12BB4AFAEE36D7082434", NFTPositionManagerABI,signer);
-    const address = await getPool(token0,token1);
+      // Calculate ticks
+      const { tickLower, tickUpper } = calculateTicks(
+        token0IsTokenA,
+        lowerTick,
+        upperTick
+      );
 
-    console.log(address)
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(
+        "0xdEA2e2AF102F95cc688E12BB4AFAEE36D7082434",
+        NFTPositionManagerABI,
+        signer
+      );
 
-    if(address === ethers.ZeroAddress && tokenAamount!==0 && tokenBamount!==0){
-      await createPoolIfNecessary(token0,token1);
-    }
-
-    if(address === ethers.ZeroAddress && (tokenAamount===0 || tokenBamount===0)){
-      alert('Pool Does Not Exist, Please fill both token A and Token B amount to continue')
-    }
-  
-
-    const contract0 = token0.toLowerCase()!==WETH.toLowerCase()? createERC20Instance(token0):null;
-    const contract1 = token1.toLowerCase()!==WETH.toLowerCase()? createERC20Instance(token1):null; 
-
-    console.log(token0,"token 0")
-    console.log(token1,"token1")
-
-    console.log(tokenAamount,tokenBamount)
-    if(contract0){
-      const status =await hasEnoughApproval(contract0,signer.address,NFTPositionManagerAddress,ethers.parseEther(tokenAamount.toString()));
-      if(!status){
-        await requestApproval(contract0,signer,NFTPositionManagerAddress,ethers.parseEther(tokenAamount.toString()));
+      // Check pool existence
+      const address = await getPool(token0, token1);
+      if (address === ethers.ZeroAddress) {
+        if (tokenAamount === 0 || tokenBamount === 0) {
+          throw new Error('Pool Does Not Exist, Please fill both token A and Token B amount to continue');
+        }
+        await createPoolIfNecessary(token0, token1, sqrtPricex96);
       }
-    }
 
-    if(contract1){
-      const status = await hasEnoughApproval(contract1,signer.address,NFTPositionManagerAddress,ethers.parseEther(tokenBamount.toString()));
-      if(!status){
-        await requestApproval(contract1,signer,NFTPositionManagerAddress,ethers.parseEther(tokenBamount.toString()));
+      // Handle approvals
+      const approvalPromises = [];
+      if (token0.toLowerCase() !== WETH.toLowerCase()) {
+        const contract0 = createERC20Instance(token0);
+        const status0 = await hasEnoughApproval(
+          contract0,
+          signer.address,
+          NFTPositionManagerAddress,
+          amount0Desired
+        );
+        if (!status0) {
+          approvalPromises.push(
+            requestApproval(contract0, signer, NFTPositionManagerAddress, amount0Desired)
+          );
+        }
       }
-    }
+      
+      if (token1.toLowerCase() !== WETH.toLowerCase()) {
+        const contract1 = createERC20Instance(token1);
+        const status1 = await hasEnoughApproval(
+          contract1,
+          signer.address,
+          NFTPositionManagerAddress,
+          amount1Desired
+        );
+        if (!status1) {
+          approvalPromises.push(
+            requestApproval(contract1, signer, NFTPositionManagerAddress, amount1Desired)
+          );
+        }
+      }
+      
+      await Promise.all(approvalPromises);
 
-    console.log("updating ticks for ",spacing);
-    
-    lowerTick = Math.floor(lowerTick/spacing)*spacing;
-    upperTick = Math.floor(upperTick/spacing)*spacing;
+      // Create position
+      const tx = await contract.mint(
+        {
+          token0,
+          token1,
+          fee: feeTier,
+          tickLower,
+          tickUpper,
+          recipient: await signer.getAddress(),
+          amount0Desired,
+          amount1Desired,
+          amount0Min: 0,
+          amount1Min: 0,
+          deadline: BigInt(Math.floor(Date.now() / 1000) + 60 * 10)
+        },
+        {
+          value: token1.toLowerCase() === WETH.toLowerCase() 
+            ? amount1Desired 
+            : token0.toLowerCase() === WETH.toLowerCase()
+            ? amount0Desired
+            : 0
+        }
+      );
 
-    try{
-    console.log("Creating position...");
-//add a check to only send ETHERS IF the current tick is lower than the position being created
-    console.log(upperTick,lowerTick, feeTier,ethers.parseEther(tokenAamount.toString()),tokenBamount,token0,token1)
-    const tx = await contract.mint(
-      {token0:token0, token1:token1, fee:feeTier ,tickLower:lowerTick, tickUpper:upperTick, recipient:signer.getAddress() ,amount0Desired:ethers.parseEther(tokenAamount.toString()), amount1Desired:ethers.parseEther(tokenBamount.toString()), amount0Min:0,amount1Min:0,
-        deadline:BigInt(Math.floor(Date.now()/1000)+60*10)
-      },
-      {value:token1.toLowerCase()===WETH.toLowerCase()?ethers.parseEther(tokenBamount.toString()):null}
-  );
-    console.log("Transaction sent:", tx.hash);
+      const receipt = await tx.wait();
+      alert("Position created. Transaction receipt: " + receipt.hash);
+    } 
+  };
 
-    const receipt = await tx.wait();
-    alert("Position created. Transaction receipt:"+receipt.hash);
-  }catch(e){
-    alert(e.message)
-  }
-}
   return (
-    <button className="create-position-button" onClick={async ()=>{ createPosition()}}>Create Position</button>
+    <button 
+      className="create-position-button" 
+      onClick={createPosition}
+    >
+      Create Position
+    </button>
   );
-
-
 };
 
 export default CreatePositionButton;

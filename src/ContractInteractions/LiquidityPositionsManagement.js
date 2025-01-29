@@ -213,9 +213,7 @@ const priceToSqrtX96 = (price) => BigInt(Math.floor(price * 2 ** 96));
 
 
 export const getTokenARequired=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
-    upperPrice = getPriceFromTick(upperPrice);
-
-    lowerPrice = getPriceFromTick(lowerPrice);
+ 
     
     // const sqrtCurrentPrice = Math.sqrt(currentPrice);
     // const sqrtUpperPrice = Math.sqrt(upperPrice);
@@ -247,9 +245,7 @@ export const getTokenARequired=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
 }
 
 export const getTokenBRequired = (tokenBamt,upperPrice,lowerPrice,currentPrice)=>{
-    upperPrice = getPriceFromTick(upperPrice);
 
-    lowerPrice = getPriceFromTick(lowerPrice);
 
     // const sqrtCurrentPrice = Math.sqrt(currentPrice);
     // const sqrtUpperPrice = Math.sqrt(upperPrice);

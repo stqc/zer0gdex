@@ -9,7 +9,7 @@ import { getTokenBRequired, getTokenARequired, getPriceFromTick } from "../../Co
 import FactoryABI from "../../ContractInteractions/ABI/Factory.json";
 import { provider } from "../ContractInteractions/constants";
 
-const DepositInputs = ({setAAmount, setBAmount,name1,name0,bal0,bal1,price },props) => {
+const DepositInputs = ({token0,token1,setAAmount, setBAmount,name1,name0,bal0,bal1,price },props) => {
  
   const tokenA = useSelector((state) => state.liquidityToken.tokenA);
   const tokenB = useSelector((state) => state.liquidityToken.tokenB);
