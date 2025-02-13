@@ -112,7 +112,7 @@ const PriceRangePanel = () => {
           }}>Set Price</button>
         </div>
       }
-      <PriceRangeSlider/>
+      <PriceRangeSlider updateTokenA ={updateLowerTick} updateTokenB={updateUpperTick} price={currentPriceNumber}/>
 
       <SliderRange
         token0={tokenA}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const styles = {
   container: {
@@ -64,7 +64,7 @@ const styles = {
   }
 };
 
-const PriceRangeSlider = () => {
+const PriceRangeSlider = ({updateTokenA,updateTokenB,price}) => {
   const [leftPos, setLeftPos] = useState(20);
   const [rightPos, setRightPos] = useState(80);
   
@@ -89,6 +89,7 @@ const PriceRangeSlider = () => {
       if (isLeft) {
         if (newPos >= 0 && newPos <= rightPos-5) {
           setLeftPos(newPos);
+
         }
       } else {
         if (newPos <= 95 && newPos >= leftPos+5) {
@@ -96,6 +97,7 @@ const PriceRangeSlider = () => {
         }
       }
     };
+    
     
     const handleEnd = () => {
       document.removeEventListener('mousemove', handleMove);
@@ -110,6 +112,32 @@ const PriceRangeSlider = () => {
     document.addEventListener('touchend', handleEnd);
   };
 
+  const getLeftValue =()=>{
+
+    return leftPos/47.5<1?`-${(100-leftPos*100/47.5).toFixed(2)}`:`${(leftPos*100/47.5-100).toFixed(2)}`
+
+  }
+
+  const getRightValue =()=>{
+
+    return rightPos/47.5>1?`${(rightPos*100/47.5-100).toFixed(2)}`:`-${(100-rightPos*100/47.5).toFixed(2)}`
+
+  }
+
+  useEffect(()=>{
+      let percent = getLeftValue();
+      price += price*percent/100;
+      updateTokenA(price);
+
+  },[leftPos])
+  
+  useEffect(()=>{
+    let percent = getRightValue();
+    price += price*percent/100;
+    updateTokenB(price);
+
+},[rightPos])
+
   return (
     <div style={styles.container}>      
       <div style={styles.line} />
@@ -123,7 +151,8 @@ const PriceRangeSlider = () => {
         onTouchStart={(e) => handleStart(e, true)}
       >
         ||
-        <span style={styles.markerText}>{leftPos/47.5<1?`-${(100-leftPos*100/47.5).toFixed(2)}`:`${(leftPos*100/47.5-100).toFixed(2)}`}%</span>
+        <span style={styles.markerText} 
+        >{getLeftValue()}%</span>
         <div style={{position:"absolute",height:"60px", width:"5px", borderLeft:"0px solid #E074DD", background:"#E074DD",top:"30px"}}></div>
       </div>
       
@@ -136,7 +165,7 @@ const PriceRangeSlider = () => {
         onTouchStart={(e) => handleStart(e, false)}
       >
         ||
-        <span style={styles.markerText}>{rightPos/47.5>1?`${(rightPos*100/47.5-100).toFixed(2)}`:`-${(100-rightPos*100/47.5).toFixed(2)}`}%</span>
+        <span style={styles.markerText}>{getRightValue()}%</span>
         <div style={{position:"absolute",height:"60px", width:"5px", borderLeft:"0px solid #E074DD", background:"#E074DD",top:"30px"}}></div>
       </div>
     </div>

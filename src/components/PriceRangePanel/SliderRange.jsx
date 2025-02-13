@@ -28,7 +28,7 @@ const SliderRange = ({setMinPrice, setMaxPrice }) => {
     <div className="slider-range">
       <SliderInput
         label="Min"
-        value={minPrice}
+        value={lowerTick}
         onChange={(e) => {
             setMinPrice_(e);
             setMinPrice(e)}}
@@ -41,7 +41,7 @@ const SliderRange = ({setMinPrice, setMaxPrice }) => {
       />
       <SliderInput
         label="Max"
-        value={maxPrice}
+        value={upperTick}
         onChange={(value) =>{ 
             setMaxPrice_(value);
             setMaxPrice(value)}}
