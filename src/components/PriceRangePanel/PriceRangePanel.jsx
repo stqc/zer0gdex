@@ -12,6 +12,7 @@ import { findListingToken } from "../../ContractInteractions/SearchToken";
 import { getTokenBalance } from "../ContractInteractions/ERC20Methods";
 import { provider } from "../ContractInteractions/constants";
 import InputComponent from "../InputComponent/InputComponent";
+import PriceRangeSlider from "../PriceRangeSlider/PriceRangeSlider";
 
 const PriceRangePanel = () => {
 
@@ -111,6 +112,7 @@ const PriceRangePanel = () => {
           }}>Set Price</button>
         </div>
       }
+      <PriceRangeSlider/>
 
       <SliderRange
         token0={tokenA}

@@ -18,8 +18,8 @@ const SwapComponent = () => {
   const [slippage, setSlippage] = useState(); // Example slippage
   const [priceImpact, setPriceImpact] = useState(); // Example price impact
   const [price, setPrice] = useState();
-  const [tokenAaddress,setTokenAAddress] = useState('');
-  const [tokenBaddress,setTokenBAddress] = useState('');
+  const [tokenAaddress,setTokenAAddress] = useState('0x9A87C2412d500343c073E5Ae5394E3bE3874F76b');
+  const [tokenBaddress,setTokenBAddress] = useState('0x1e0d871472973c562650e991ed8006549f8cbefc');
   const [tokenBalanceA,setTokenBalanceA] = useState(0)
   const [tokenBalanceB,setTokenBalanceB] = useState(0)
 

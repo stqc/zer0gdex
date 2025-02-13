@@ -462,7 +462,7 @@ const Faucet = () => {
   const [selectedToken, setSelectedToken] = useState('BTC');
   const tokens = ['BTC', 'USDT', 'ETH'];
   const amt ={'BTC':0.1,'USDT':10000, 'ETH':10}
-  const addresses = {'BTC':"0x1e0d871472973c562650e991ed8006549f8cbefc",'ETH':"0xce830D0905e0f7A9b300401729761579c5FB6bd6","Tether":"0x9A87C2412d500343c073E5Ae5394E3bE3874F76b"}
+  const addresses = {'BTC':"0x1e0d871472973c562650e991ed8006549f8cbefc",'ETH':"0xce830D0905e0f7A9b300401729761579c5FB6bd6","USDT":"0x9A87C2412d500343c073E5Ae5394E3bE3874F76b"}
 
   const mint = async ()=>{
     const Signer =await provider.getSigner();
@@ -470,6 +470,7 @@ const Faucet = () => {
     const contract  = new ethers.Contract(addresses[selectedToken],abi,Signer);
 
     try{
+		console.log("heloo")
     const tx = await contract.mint();
     const recipt = await tx.wait();
 
