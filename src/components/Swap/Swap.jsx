@@ -8,10 +8,11 @@ import ZeroLogo from "../../Assets/zer0.svg";
 import DropDownLogo from "../../Assets/dropdown.svg";
 import { ethers } from "ethers";
 import SlippageControl  from "../../Assets/slippage.svg";
+import tokenJson from "../../../tokens.json";
 
 const SwapComponent = () => {
-  const [tokenA, setTokenA] = useState("Token");
-  const [tokenB, setTokenB] = useState("Token"); 
+  const [tokenA, setTokenA] = useState("USDT");
+  const [tokenB, setTokenB] = useState("BTC"); 
   const [amountA, setAmountA] = useState();
   const [amountB, setAmountB] = useState();
   const [slippage, setSlippage] = useState(); // Example slippage
@@ -142,11 +143,9 @@ const SwapInput = ({ token, setToken, amount, setAmount, label, setTokenAddress,
 export const TokenSelector = ({ token, setToken,updateToken }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokens,updateTokenList] = useState([
-    {name:"USD", address:'0x0D4eb9d047E57b6DB64CB9FE53945F197035D17d',decimals:18},
-    {name:"BTC",address:'0x3559ABeAA66773E9995cdD0ecBa6a36EfAcD1334',decimals:18},
-    {name:'ETH',address:"0xEc587B7D14236C9185d2f5974c268Df72F594353",decimals:18},
-    {name:'BNB',address:"0xd7bA8228891392Ed59D93788815E226FD138425C",decimals:18},
-    {name:"SOL",address:"0xd00475355398782923354fcA062BC958e04CFA87",decimals:18},
+    {name:"USDT", address:'0x9A87C2412d500343c073E5Ae5394E3bE3874F76b',decimals:18},
+    {name:"BTC",address:'0x1e0d871472973c562650e991ed8006549f8cbefc',decimals:18},
+    {name:'ETH',address:"0xce830D0905e0f7A9b300401729761579c5FB6bd6",decimals:18},
  ]);
 
   const setCurrentToken = (token) => {
@@ -173,7 +172,7 @@ export const TokenSelector = ({ token, setToken,updateToken }) => {
       >
         
         <div style={{height:"30px", width:"30px"}}>
-          <img src={ZeroLogo} height={"100%"} width={"100%"}/>
+          <img src={tokenJson[token]?tokenJson[token]?.logo:ZeroLogo} height={"100%"} width={"100%"}/>
         </div>
         <div >{token}</div>
         <div style={{height:"10px",width:"10px"}}>

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import Store from './redux/Store';
 import SwapComponent from './components/Swap/Swap';
 import { Manage } from './components/ManagePositons/Manage';
+import Faucet from './components/faucet/faucet';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             <Route path='/swap' element={<SwapComponent/>}/>
             <Route path='/add' element={<LiquidityPanel/>}/>
             <Route path='/manage' element={<Manage/>}/>
+            <Route path='/faucet' element={<Faucet/>}/>
           </Routes>
       </BrowserRouter>
     </Provider>

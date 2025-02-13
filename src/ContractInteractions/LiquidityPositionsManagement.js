@@ -246,8 +246,8 @@ export const getTokenARequired=(tokenAamt,upperPrice,lowerPrice,currentPrice)=>{
 
 export const getTokenBRequired = (tokenBamt,upperPrice,lowerPrice,currentPrice)=>{
 
-    upperPrice = tickToPrice(upperPrice)
-    lowerPrice = tickToPrice(lowerPrice)
+    // upperPrice = tickToPrice(upperPrice)
+    // lowerPrice = tickToPrice(lowerPrice)
     // const sqrtCurrentPrice = Math.sqrt(currentPrice);
     // const sqrtUpperPrice = Math.sqrt(upperPrice);
     // const sqrtLowerPrice = Math.sqrt(lowerPrice);
