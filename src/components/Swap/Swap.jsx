@@ -9,6 +9,8 @@ import DropDownLogo from "../../Assets/dropdown.svg";
 import { ethers } from "ethers";
 import SlippageControl  from "../../Assets/slippage.svg";
 import tokenJson from "../../../tokens.json";
+import { Search } from 'lucide-react';
+import { X } from "lucide-react";
 
 const SwapComponent = () => {
   const [tokenA, setTokenA] = useState("USDT");
@@ -140,7 +142,7 @@ const SwapInput = ({ token, setToken, amount, setAmount, label, setTokenAddress,
   );
 };
 
-export const TokenSelector = ({ token, setToken,updateToken }) => {
+export const TokenSelector = ({ token, setToken,updateToken, width }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokens,updateTokenList] = useState([
     {name:"USDT", address:'0x9A87C2412d500343c073E5Ae5394E3bE3874F76b',decimals:18},
@@ -168,13 +170,13 @@ export const TokenSelector = ({ token, setToken,updateToken }) => {
       <div
         className="token-dropdown"
         onClick={() => setIsModalOpen(true)}
-        style={{display:"flex",wordWrap:"break-word", gap:"10px", cursor:"default", width:"100px",fontWeight:"700" ,justifyContent:"space-between"}}
+        style={{display:"flex",wordWrap:"break-word", gap:"10px", cursor:"default", width:width?width:"100px",fontWeight:"700" ,justifyContent:"space-between"}}
       >
         
         <div style={{height:"30px", width:"30px"}}>
           <img src={tokenJson[token]?tokenJson[token]?.logo:ZeroLogo} height={"100%"} width={"100%"}/>
         </div>
-        <div >{token}</div>
+        <div style={{marginRight:"auto"}} >{token}</div>
         <div style={{height:"10px",width:"10px"}}>
           <img src={DropDownLogo} height={"100%"} width={"100%"}/>
         </div>
@@ -184,19 +186,25 @@ export const TokenSelector = ({ token, setToken,updateToken }) => {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>Select a Token</h3>
-            <input
-              type="text"
-              placeholder="Enter token address..."
-              className="token-search"
-              onChange={(e) =>{
-                
-                if(e.target.value.length>=42){
+          <div className="modal-header">
+            <h1 className="modal-title">Select Token</h1>
+            <button className="close-button" onClick={() => setIsModalOpen(false)}>
+              <X size={24} strokeWidth={3} />
+            </button>
+          </div>
+            <div className="search-wrapper">
+              <Search className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search by name or paste address"
+                className="token-search"
+                onChange={(e) => {
+                  if (e.target.value.length >= 42) {
                     findToken(e.target.value);
-                }
-
-              }}
-            />
+                  }
+                }}
+              />
+            </div>
             <div className="token-list">
               {tokens.map((tokenItem, index) => (
                 <div
@@ -204,16 +212,16 @@ export const TokenSelector = ({ token, setToken,updateToken }) => {
                   className="token-list-item"
                   onClick={() => handleTokenSelect(tokenItem)}
                 >
-                  {tokenItem.name} ({tokenItem.address.slice(0, 6)}...)
+                  <div style={{height:"30px", width:"30px"}}>
+                    <img src={tokenJson[tokenItem.name]?tokenJson[tokenItem.name]?.logo:ZeroLogo} height={"100%"} width={"100%"}/>
+                  </div>
+                  <div style={{display:"flex", flexDirection:"column"}}>
+                    <div style={{fontWeight:"700"}}>{tokenItem.name}</div> 
+                    <div style={{fontSize:"0.7rem"}}>({tokenItem.address.slice(0, 6)}...)</div>
+                  </div>
                 </div>
               ))}
             </div>
-            <button
-              className="close-modal"
-              onClick={() => setIsModalOpen(false)}
-            >
-              Close
-            </button>
           </div>
         </div>
       )}

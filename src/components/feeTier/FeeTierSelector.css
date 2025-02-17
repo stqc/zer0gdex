@@ -1,17 +1,22 @@
 .fee-tier-selector {
     display: flex;
     gap: 10px;
+
   }
   
   .fee-tier-card {
     flex: 1;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 20px;
     text-align: center;
     cursor: pointer;
     transition: 0.3s;
     background-color: #FCF2FC;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
   }
   
   .fee-tier-card.highlight {

@@ -4,7 +4,7 @@ import ZeroLogo from "../../Assets/zer0.svg";
 
 const InputComponent = (props) => {
     return (
-        <div className="input-component">
+        <div className="input-component" style={{width:props.width?props.width:"", borderRadius:props.radius?props.radius:""}}>
             {props.children}
         </div>
     );

@@ -1,19 +1,63 @@
 .select-pair {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-  }
-  
-  .token-select {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .swap-icon {
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 800px;
+  padding: 0.5rem;
+}
+
+.swap-button- {
+  width: 2rem !important;
+  height: 2rem;
+  background-color: #FCF2FC !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0 !important;
+}
+
+.swap-button-:hover {
+  background-color: #F3E8FF;
+}
+
+.swap-icon {
+  color: #9333EA;
+}
+
+/* Styles for TokenSelect components when inside SelectPair */
+.select-pair .token-select {
+  flex: 1;
+  background-color: #FCF2FC;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.select-pair .token-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.select-pair .token-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.select-pair .token-label {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #1F2937;
+}
+
+.select-pair .chevron-down {
+  color: #9333EA;
+}

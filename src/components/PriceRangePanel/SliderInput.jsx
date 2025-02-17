@@ -4,22 +4,31 @@ import "./SliderInput.css";
 const SliderInput = ({ label, value, onChange, onIncrement, onDecrement }) => {
   return (
     <div className="slider-input">
-      <span className="slider-label">{label}</span>
+      <div className="slider-header">
+        <span className="label">{label}</span>
+      </div>
       <div className="slider-control">
-        <button className="slider-button" onClick={value>0? onDecrement:null}>
-          -
+        <button 
+          className="control-button" 
+          onClick={value > 0 ? onDecrement : null}
+        >
+          <span className="minus">−</span>
         </button>
         <input
           type="number"
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           min={0}
+          className="value-input"
         />
-        <button className="slider-button" onClick={onIncrement}>
-          +
+        <button 
+          className="control-button" 
+          onClick={onIncrement}
+        >
+          <span className="plus">+</span>
         </button>
       </div>
-      <span className="slider-unit">Token per Token</span>
+      <span className="unit">USDT per ETH</span>
     </div>
   );
 };

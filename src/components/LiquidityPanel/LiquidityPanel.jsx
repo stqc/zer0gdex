@@ -1,16 +1,23 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SelectPair from "../selectPair/SelectPair";
 import FeeTierSelector from "../feeTier/FeeTierSelector";
 import "./LiquidityPanel.css";
 import PriceRangePanel from "../PriceRangePanel/PriceRangePanel";
 import { useDispatch,useSelector } from "react-redux";
-import { setFeeTier,setSpacing } from "../../redux/liquidityTokenSelectorSlice";
+import { setFeeTier,setSpacing,setTokenA,setTokenB } from "../../redux/liquidityTokenSelectorSlice";
 
 
 function LiquidityPanel() {
   
 const dispatch = useDispatch();
 const selectedFeeTier = useSelector((state) => state.liquidityToken.feeTier);
+
+useEffect(()=>{
+
+  return ()=>{
+  dispatch(setTokenA(""))
+  dispatch(setTokenB(""))}
+},[])
 
 const tierToSpacing = {
     500: 10,

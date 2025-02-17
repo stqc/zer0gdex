@@ -2,13 +2,13 @@ import React from "react";
 import "./RangeOptions.css";
 
 const options = [
-  { label: "Full Range", risk: 1, profit: 2 },
+  { label: "Full Range", risk: 1, profit: 1 },
   { label: "Safe", risk: 2, profit: 2 },
   { label: "Common", risk: 3, profit: 3 },
-  { label: "Expert", risk: 4, profit: 5 },
+  { label: "Expert", risk: 4, profit: 4 },
 ];
 
-const RangeOptions = ({ selectedType, onChange }) => {
+const RangeOptions = ({ selectedType = "Full Range", onChange = () => {} }) => {
   return (
     <div className="range-options">
       {options.map((option) => (
@@ -17,12 +17,26 @@ const RangeOptions = ({ selectedType, onChange }) => {
           className={`range-option ${selectedType === option.label ? "selected" : ""}`}
           onClick={() => onChange(option.label)}
         >
-          <div className="option-label">
-            {selectedType === option.label && <span>✔</span>} {option.label}
+          <div className="option-header">
+            <div className="checkbox">
+              {selectedType === option.label && <span className="checkmark">✓</span>}
+            </div>
+            <span className="option-label">{option.label}</span>
           </div>
+          
           <div className="option-info">
-            <span style={{color:"#5C4C5C", fontSize:"0.9rem"}}>Risk: <span style={{color:"#E44F4F", fontSize:"1.5rem"}}>{Array(option.risk).fill("●").join(" ")}</span></span>
-            <span style={{color:"#5C4C5C",fontSize:"0.9rem"}}>Profit: <span style={{color:"#14B8A9", fontSize:"1.5rem"}}>{Array(option.profit).fill("●").join(" ")}</span></span>
+            <div className="metric">
+              <span className="label">Risk:</span>
+              <span className="dots risk">
+                {Array(option.risk).fill("●").join(" ")}
+              </span>
+            </div>
+            <div className="metric">
+              <span className="label">Profit:</span>
+              <span className="dots profit">
+                {Array(option.profit).fill("●").join(" ")}
+              </span>
+            </div>
           </div>
         </div>
       ))}

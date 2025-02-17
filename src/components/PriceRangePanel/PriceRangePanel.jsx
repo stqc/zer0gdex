@@ -104,7 +104,7 @@ const PriceRangePanel = () => {
             <input ref={priceRef} className='number-input' style={{fontSize:"1.2rem",width:"100%" ,fontWeight:"600" ,backgroundColor:"transparent", border:0, color:"black"}} type="number" placeholder="Enter Starting Price" onChange={(e)=>{
                           // setCurrentPriceNumber(e.currentTarget.value)        
             }}/>            
-            <strong>{`${nameToken0}/${nameToken1}`}</strong>
+            {nameToken0 && nameToken1 && <strong>{`${nameToken0}/${nameToken1}`}</strong>}
           </InputComponent>        
           <button onClick={()=>{
             setCurrentPriceNumber(Number(priceRef.current.value))
@@ -112,7 +112,7 @@ const PriceRangePanel = () => {
           }}>Set Price</button>
         </div>
       }
-      <PriceRangeSlider updateTokenA ={updateLowerTick} updateTokenB={updateUpperTick} price={currentPriceNumber}/>
+      {currentPriceNumber>0 &&<PriceRangeSlider updateTokenA ={updateLowerTick} updateTokenB={updateUpperTick} price={currentPriceNumber}/>}
 
       <SliderRange
         token0={tokenA}
