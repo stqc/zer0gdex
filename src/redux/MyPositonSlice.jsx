@@ -12,6 +12,8 @@ const MyPositionSlice = createSlice({
         token1Add:"",
         NFTid:"",
         liquidity:0,
+        token0owed:0,
+        token1owed:0
     },
     reducers:{
         updateData:(state,payload)=>{
@@ -23,6 +25,8 @@ const MyPositionSlice = createSlice({
             state.token0Add = payload.payload.token0Add;
             state.token1Add = payload.payload.token1Add;
             state.liquidity = payload.payload.liquidity;
+            state.token0owed = payload.payload.token0owed;
+            state.token1owed = payload.payload.token1owed
         },
 
         

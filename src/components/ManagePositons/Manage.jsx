@@ -46,6 +46,7 @@ export const Manage = () => {
                         token0Add = {position.tokenAdd0}
                         token1Add = {position.tokenAdd1}
                         liquidity = {position.liquidity}
+                        currentTick = {position.currentTick}
                     />
 
                         }

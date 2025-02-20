@@ -76,6 +76,7 @@ export const getLiqudityPairOfUser = async ()=>{
         const balanceOfToken0 = await calculateAmount0(position.liquidity,position.tickLower,position.tickUpper,slot0.tick)
         
         const balanceOfToken1 = await calculateAmount1(position.liquidity,position.tickLower,position.tickUpper,slot0.tick)
+
           
         // console.log(i);
 
@@ -92,7 +93,8 @@ export const getLiqudityPairOfUser = async ()=>{
                 tokensOwed1: ethers.formatUnits(position.tokensOwed1, 18),
                 tokenAdd0:position.token0,
                 tokenAdd1:position.token1,
-                liquidity:position.liquidity
+                liquidity:position.liquidity,
+                currentTick:slot0.tick
         });
 
         // if(ManageState?.positions?.action){

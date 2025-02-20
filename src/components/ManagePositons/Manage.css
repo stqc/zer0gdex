@@ -116,6 +116,7 @@
 .range-info{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .range-content{
@@ -142,3 +143,274 @@
 .action>button{
     border-radius: 50px;
 }
+
+.single-position {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    background: white;
+    border-radius: 32px;
+    margin-bottom: 12px;
+    gap: 24px;
+}
+
+/* Token Info Styles */
+.token-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.token-logos {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.logo-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.first-logo {
+    background: linear-gradient(145deg, #f8e1e8, #e8d1f8);
+    z-index: 1;
+}
+
+.second-logo {
+    background: linear-gradient(145deg, #e1f8e8, #d1f8e8);
+    margin-left: -12px;
+}
+
+.logo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.token-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.token-name {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.token-fee {
+    color: #666;
+    font-size: 14px;
+}
+
+.position-type {
+    background: #f8d8f8;
+    color: #d464d4;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Range Info Styles */
+.range-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.range-labels {
+    display: flex;
+    gap: 16px;
+    color: #666;
+    font-size: 14px;
+}
+
+.range-values {
+    display: flex;
+    gap: 16px;
+    font-weight: 500;
+}
+
+.range-status {
+    color: #ff4d4d;
+    font-size: 14px;
+}
+
+/* Position and Rewards Info */
+.position-info,
+.rewards-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.main-value {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.sub-values {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Status Badge */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.receiving-rewards {
+    background: #e6fff9;
+    color: #00bfa5;
+}
+
+/* Deposit Button */
+.deposit-button {
+    background: #1a1a1a;
+    color: white;
+    padding: 8px 24px;
+    border-radius: 32px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.deposit-button:hover {
+    background: #333;
+}
+
+.range-arrow {
+    color: #999;
+}
+
+.out-of-range {
+    background: #ffe6e6;
+    color: #ff4d4d;
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.in-range {
+    background: #a4cac6f7;
+    color: #00B8A11A;
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.slider-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgb(235, 206, 248) 0%,
+    rgb(173, 238, 219) 50%,
+    rgb(235, 206, 248) 100%
+  );
+}
+
+.slider-thumb {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: rgb(74, 222, 128);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+  transition: transform 0.1s ease;
+}
+
+.slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.slider-input {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  height: 100%;
+}
+
+/* Custom styles for WebKit browsers */
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Custom styles for Firefox */
+.slider-input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+}
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #E074DD;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 5px rgba(224, 116, 221, 0.5);
+  }
+  
+  .custom-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #E074DD;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 5px rgba(224, 116, 221, 0.5);
+  }
+  
+  /* Optional: Style the track */
+  .custom-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #E074DD 0%, #E074DD var(--value, 50%), #f3e8ff var(--value, 50%), #f3e8ff 100%);
+    height: 15px;
+    border-radius: 20px;
+  }
+  
+  .custom-slider::-moz-range-track {
+    background: linear-gradient(to right, #E074DD 0%, #E074DD var(--value, 50%), #f3e8ff var(--value, 50%), #f3e8ff 100%);
+    height: 15px;
+    border-radius: 20px;
+  }
+  
+  /* Remove default styling */
+  .custom-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }

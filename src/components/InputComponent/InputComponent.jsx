@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import './InputComponent.css';
 import ZeroLogo from "../../Assets/zer0.svg";
 
@@ -37,11 +37,50 @@ export const InputElement =(props)=>{
     )
 }
 
+export const PinkSlider = ({ min = 0, max = 100, value, onChange }) => {
+  const [progress, setProgress] = useState(0);
+  const trackRef = useRef(null);
+
+  const updateProgress = (val) => {
+    const percentage = ((val - min) / (max - min)) * 100;
+    setProgress(percentage);
+  };
+
+  useEffect(() => {
+    updateProgress(value);
+  }, [value, min, max]);
+
+  const handleChange = (e) => {
+    const newValue = Number(e.target.value);
+    updateProgress(newValue);
+    onChange?.(newValue);
+  };
+
+  return (
+    <div className="custom-range-slider">
+      <div className="slider-track" />
+      <div 
+        className="slider-progress" 
+        style={{ width: `${progress}%` }} 
+      />
+      <input
+        type="range"
+        min={min}
+        max={max}
+        value={value}
+        onChange={handleChange}
+      />
+    </div>
+  );
+};
+
+
+
 export const RemoveLiquidityElements =(props)=>{
     const [currentValue,UpdateCurrentValue] = useState(props.defVal)
     return (
         <div style={{display:"flex", flexDirection:"column"}}>
-            <div style={{display:"flex", justifyContent:"space-between", alignItems:"top"}}>
+            <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
                 <h2 style={{margin:0}}>{currentValue}%</h2>
                 <div style={{display:"flex", gap:"5px"}}>
                     <div className="option" onClick={()=>{UpdateCurrentValue(25);
@@ -67,9 +106,10 @@ export const RemoveLiquidityElements =(props)=>{
                 </div>
             </div>
             <div style={{margin:"30px 0px", width:"100%"}}>
-                <input className='slider' type='range' style={{width:"100%"}} value={currentValue} onChange={(e)=>{
-                    UpdateCurrentValue(e.target.value);
-                    props.changePercentage(Number(e.target.value));
+                <PinkSlider value={currentValue} onChange={(e)=>{
+                    UpdateCurrentValue(e);
+                    props.changePercentage(Number(e));
+                   
                 }}/>
             </div>
         </div>

@@ -3,6 +3,8 @@ import { InputElement } from "../InputComponent/InputComponent";
 import { useState } from "react";
 import { RemoveLiquidityElements } from "../InputComponent/InputComponent";
 import { addLiquidity, getTokenARequiredManage, getTokenBRequiredManage, removeLiquidity } from "../../ContractInteractions/LiquidityPositionsManagement";
+import GradientSlider from "./SliderGradient";
+import FeesCard from "./FeeCard";
 
 export const LeftPaneManage = ({props,price})=>{
 
@@ -12,20 +14,26 @@ export const LeftPaneManage = ({props,price})=>{
         <div className="left-pane-manage">
                 <OptionPageManage content={[
                     <p className={optionActive===1?"active-tab":""} onClick={()=>{updateOptionActive(1)}}>{props.token0+" per "+props.token1}</p>,
-                    // <p className={optionActive===0?"active-tab":""} onClick={()=>{updateOptionActive(0)}}>{props.token1+" per "+props.token0}</p>
+                    <p className={optionActive===0?"active-tab":""} onClick={()=>{updateOptionActive(0)}}>{props.token1+" per "+props.token0}</p>
                 ]}/>
-            <div className="range-info">
-                <RangeInfoContent left={true} tickLeft={props.tickLeft}/>
-                <div className="range-content">
+            <div className="range-info" style={{flexDirection:"row"}}>
+                <RangeInfoContent left={true} tickLeft={optionActive===0?props.tickLeft:props.tickRight} option={optionActive}/>
+                <div className="range-content" style={{alignItems:"center"}}>
                     <div className="range-heading">
                         Current Price
                     </div>
-                    <div className="range-price">
-                        {price.toFixed(7)}
+                    <div className="range-price" style={{fontWeight:700}}>
+                        {optionActive===0?price.toFixed(7):(1/price).toFixed(7)}
                     </div>
                 </div>
-                <RangeInfoContent left={false} tickRight={props.tickRight}/>
+                <RangeInfoContent left={false} tickRight={optionActive===0?props.tickRight:props.tickLeft} option={optionActive}/>
             </div>
+            <GradientSlider 
+            min={optionActive===0?1/(1.0001**props.tickLeft):1.0001**props.tickRight}
+            max={optionActive===0?1/(1.0001**props.tickRight):1.0001**props.tickLeft}
+            value={optionActive===0?1/price:price}
+             />
+             <FeesCard token0={props.token0} token1={props.token1} token0fee={props.token0owed} token1fee={props.token1owed}/>
         </div>
     )
 
@@ -37,8 +45,8 @@ const RangeInfoContent = (props)=>{
                 <div className="range-heading">
                     {props.left?"Min Price":"Max Price"}
                 </div>
-                <div className="range-price">
-                    {Math.pow(1.0001,props.left?props.tickLeft:props.tickRight).toFixed(7)}
+                <div className="range-price" style={{fontWeight:700}}>
+                    {props.option===0?(Math.pow(1.0001,props.left?props.tickLeft:props.tickRight)).toFixed(7): (1/Math.pow(1.0001,props.left?props.tickLeft:props.tickRight)).toFixed(7)}
                 </div>
             </div>
             )
@@ -82,7 +90,7 @@ export const RightPaneManage = ({props,currentPrice,tokenAbal,tokenBbal})=>{
                 <h4>{"Deposit Amounts"}</h4>
                 <InputComponent>
                     <InputElement value={token0Amount} name={props.token0} updateTokenAmount={updateABPrice}/>
-                    <div style={{display:"flex",justifyContent:"space-between"}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                         <div style={{background:"white", borderRadius:"50px", width:"50px", textAlign:"center", cursor:"pointer"}}>
                             <span className="max-label" style={{color:"black", fontWeight:"500"}} onClick={()=>{
                                 updateABPrice(tokenAbal)

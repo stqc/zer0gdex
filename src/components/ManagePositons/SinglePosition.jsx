@@ -1,70 +1,92 @@
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 import { useDispatch } from 'react-redux';
 import { updateData } from '../../redux/MyPositonSlice';
 import ZeroLogo from "../../Assets/zer0.svg";
 
 export const SingePosition = (props) => {
-
     const dispatch = useDispatch();
 
     return (
         <div className="single-position">
-            <div className="name-fee">
-                <div className='position-logo' style={{ display:"flex",flexDirection:"row", position:"relative"}}>
-                    <div style={{height:"50px", height:"50px"}}>
-                        <img src={ZeroLogo} height={"100%"} width={"100%"}/>
+            {/* Pair and Type Section */}
+            <div className="token-info">
+                <div className="token-logos">
+                    <div className="logo-wrapper first-logo">
+                        <img src={ZeroLogo} alt="Token 0" />
                     </div>
-                    <div style={{height:"50px", height:"50px"}}>
-                        <img src={ZeroLogo} height={"100%"} width={"100%"}/>
-                    </div>
-                </div>
-                <div>
-                    <p className='position-name-fee'>{props.token0[0]}/{props.token1[0]}</p>
-                    <p className='position-name-fee' style={{color:"#A591A4"}}>Fee: {props.fee}</p>
-                </div>
-            </div>
-            <div className="range">
-                <p className='info-heading'>Tick Range</p>
-                <div style={{display:"flex", width:"150px", width:"100%"}}>
-                    <div style={{display:"flex",justifyContent:"space-between", flexDirection:"column", width:"100%", alignItems:"center",justifyContent:"space-between"}}>
-                        <p className='max-min-range'>min</p>
-                        <p className='max-min-range value-range'>{props.tickLower}</p>
-                    </div>
-                    <div style={{display:"flex", justifyContent:"space-between",  flexDirection:"column", width:"100%", alignItems:"center", justifyContent:"space-between"}}> 
-                        <p className='max-min-range'>max</p>  
-                        <p className='max-min-range value-range'>{props.tickUpper}</p>
+                    <div className="logo-wrapper second-logo">
+                        <img src={ZeroLogo} alt="Token 1" />
                     </div>
                 </div>
+                <div className="token-details">
+                    <div className="token-name">{props.token0[0]}/{props.token1[0]}</div>
+                    <div className="token-fee">Fee {props.fee}%</div>
+                </div>
             </div>
-            <div className="position-size">
-                <p className='info-heading'>Size</p>
-                <p className='position-size-value' >{Number(ethers.formatUnits(props.liquidity0,props.token0[1])).toFixed(3)} {props.token0[0]}</p>
-                <p className='position-size-value'>{Number(ethers.formatUnits(props.liquidity1,props.token1[1])).toFixed(3)} {props.token1[0]}</p>
+
+            {/* Range Section */}
+            <div className="range-info">
+                <div className="range-labels">
+                    <span>min</span>
+                    <span className="range-arrow">↔</span>
+                    <span>max</span>
+                </div>
+                <div className="range-values">
+                    <span>{props.tickLower}</span>
+                    <span>{props.tickUpper}</span>
+                </div>
+                <div className={`range-status ${1.0001**Number(props.tickLower)<1.0001**Number(props.currentTick) && 1.0001**Number(props.currentTick)<1.0001**Number(props.tickUpper) ?"status badge receiving-rewards":"out-of-range"}`}>{1.0001**Number(props.tickLower)<1.0001**Number(props.currentTick) && 1.0001**Number(props.currentTick)<1.0001**Number(props.tickUpper) ?"In Range":"• Out of Range"}</div>
             </div>
-            <div className="position-size">
-                <p className='info-heading'>Reward</p>
-                <p className='position-size-value'>{Number(props.tokensOwed0).toFixed(3)} {props.token0[0]}</p>
-                <p className='position-size-value'>{Number(props.tokensOwed1).toFixed(3)} {props.token1[0]}</p>
+
+            {/* Position Size Section */}
+            <div className="position-info">
+                <div className="position-value">
+                    <div className="main-value">Position Size</div>
+                    <div className="sub-values">
+                        <div>{Number(ethers.formatUnits(props.liquidity0, props.token0[1])).toFixed(2)} {props.token0[0]}</div>
+                        <div>{Number(ethers.formatUnits(props.liquidity1, props.token1[1])).toFixed(2)} {props.token1[0]}</div>
+                    </div>
+                </div>
             </div>
-            <div className="position-size">
-                <p className='info-heading'>Status</p>
-                <p className='position-size-value'> {props.status}</p>
+
+            {/* Rewards Section */}
+            <div className="rewards-info">
+                <div className="reward-value">
+                    <div className="main-value">Rewards</div>
+                    <div className="sub-values">
+                        <div>{Number(props.tokensOwed0).toFixed(2)} {props.token0[0]}</div>
+                        <div>{Number(props.tokensOwed1).toFixed(2)} {props.token1[0]}</div>
+                    </div>
+                </div>
             </div>
-            <div className="action">
-                <button onClick={()=>{
+
+            {/* Status Section */}
+            <div className="status-info">
+                <div className={`status-badge ${1.0001**Number(props.tickLower)<1.0001**Number(props.currentTick) && 1.0001**Number(props.currentTick)<1.0001**Number(props.tickUpper) ?"receiving-rewards":"out-of-range"}`}>
+                    {1.0001**Number(props.tickLower)<1.0001**Number(props.currentTick) && 1.0001**Number(props.currentTick)<1.0001**Number(props.tickUpper) ?"Receiving Rewards":"Out of Range"}
+                </div>
+            </div>
+
+            {/* Action Button */}
+            <div className="action-section">
+                <button className="deposit-button" onClick={() => {
                     props.showManage(true);
                     dispatch(updateData({
-                        token0:props.token0[0],
-                        token1:props.token1[0],
-                        tickLeft:props.tickLower,
-                        tickRight:props.tickUpper,
-                        token0Add:props.token0Add,
-                        token1Add:props.token1Add,
+                        token0: props.token0[0],
+                        token1: props.token1[0],
+                        tickLeft: props.tickLower,
+                        tickRight: props.tickUpper,
+                        token0Add: props.token0Add,
+                        token1Add: props.token1Add,
                         NFTid: props.id,
-                        liquidity: ethers.formatEther(props.liquidity)
+                        liquidity: ethers.formatEther(props.liquidity),
+                        token0owed: props.tokensOwed0,
+                        token1owed: props.tokensOwed1
                     }))
-                }}>Manage</button>
+                }}>
+                    Manage
+                </button>
             </div>
         </div>
-    )
+    );
 };

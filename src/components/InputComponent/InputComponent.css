@@ -18,3 +18,76 @@
 }
 
 
+.custom-range-slider {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* The actual track */
+  .custom-range-slider .slider-track {
+    position: absolute;
+    width: 100%;
+    height: 8px;
+    background: rgb(255, 255, 255);
+    border-radius: 4px;
+  }
+  
+  /* The range input */
+  .custom-range-slider input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Hide default track */
+  .custom-range-slider input[type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    height: 8px;
+    background: transparent;
+  }
+  
+  .custom-range-slider input[type="range"]::-moz-range-track {
+    height: 8px;
+    background: transparent;
+  }
+  
+  /* Style the thumb */
+  .custom-range-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    background: #E074DD;
+    cursor: pointer;
+    margin-top: -12px; /* Center the thumb */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .custom-range-slider input[type="range"]::-moz-range-thumb {
+    height: 32px;
+    width: 32px;
+    border: none;
+    border-radius: 50%;
+    background: #E074DD;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* The filled part of the track */
+  .custom-range-slider .slider-progress {
+    position: absolute;
+    height: 8px;
+    background: #E074DD;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
