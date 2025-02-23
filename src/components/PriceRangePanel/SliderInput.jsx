@@ -3,7 +3,7 @@ import "./SliderInput.css";
 
 const SliderInput = ({ label, value, onChange, onIncrement, onDecrement }) => {
   return (
-    <div className="slider-input">
+    <div className="slider-input" style={{opacity:"100%", position:"initial"}}>
       <div className="slider-header">
         <span className="label">{label}</span>
       </div>
@@ -28,7 +28,7 @@ const SliderInput = ({ label, value, onChange, onIncrement, onDecrement }) => {
           <span className="plus">+</span>
         </button>
       </div>
-      <span className="unit">USDT per ETH</span>
+      <span className="unit"></span>
     </div>
   );
 };
