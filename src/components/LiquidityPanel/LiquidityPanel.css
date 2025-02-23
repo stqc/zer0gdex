@@ -15,3 +15,145 @@
     border-radius: 20px;
     max-height: fit-content;
   }
+
+
+  .liquidity-pool {
+    padding: 30px;
+    max-width: 1255px;
+    margin: auto;
+  }
+  
+  .pool-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  
+  .pool-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .create-position-btn {
+    background: #E074DD;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+  }
+  
+  .create-position-btn:hover {
+    background: #d44fd0;
+  }
+  
+  .column-headers {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 16px;
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .pool-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding: 20px;
+    background: white;
+    border-radius: 30px;
+    margin-bottom: 16px;
+    align-items: center;
+
+  }
+  
+  .pair-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .token-icons {
+    display: flex;
+    position: relative;
+  }
+  
+  .token-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+  
+  .token-icon:last-child {
+    margin-left: -12px;
+  }
+  
+  .pair-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .pair-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .pair-type {
+    color: #888;
+    font-size: 14px;
+  }
+  
+  .info-button {
+    color: #E074DD;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .apr-badge {
+    background: #fce7fb;
+    color: #E074DD;
+    padding: 6px 16px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .stats-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .stats-main {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .stats-sub {
+    color: #888;
+    font-size: 14px;
+  }
+  
+  .deposit-button {
+    background: #E074DD;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    justify-self: center;
+  }
+  
+  .deposit-button:hover {
+    background: #d44fd0;
+  }
+  

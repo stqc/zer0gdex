@@ -17,7 +17,7 @@ function App() {
           <Routes>
           <Route path='/' element={<SwapComponent/>}/>
             <Route path='/swap' element={<SwapComponent/>}/>
-            <Route path='/add' element={<LiquidityPanel/>}/>
+            <Route path='/pools' element={<LiquidityPanel/>}/>
             <Route path='/manage' element={<Manage/>}/>
             <Route path='/faucet' element={<Faucet/>}/>
           </Routes>

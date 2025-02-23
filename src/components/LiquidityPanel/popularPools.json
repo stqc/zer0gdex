@@ -1,0 +1,19 @@
+[
+    {
+        "token0":"0x1e0d871472973c562650e991ed8006549f8cbefc",
+        "token1":"0x9A87C2412d500343c073E5Ae5394E3bE3874F76b",
+        "token0Name":"BTC",
+        "token1Name":"USDT",
+        "poolAddress":"0xFC414f339E9fb110CBb250019F87b82980ac32e0",
+        "fee":"0.3%"
+    }
+    ,
+    {
+        "token0":"0xce830D0905e0f7A9b300401729761579c5FB6bd6",
+        "token1":"0x9A87C2412d500343c073E5Ae5394E3bE3874F76b",
+        "token0Name":"ETH",
+        "token1Name":"USDT",
+        "poolAddress":"0xE4b089FF8E1145A34466FdfdC61202e5F9Dab547",
+        "fee":"0.3%"
+    }
+]

@@ -36,8 +36,8 @@ function Navbar() {
         {/* Navigation Links */}
         <nav>
           <Link className="link-text" to={"/swap"}>Swap</Link>
-          <Link className="link-text" to={"/add"}>Add Liquidity</Link>
-          <Link className="link-text" to={"/manage"}>Manage Liquidity</Link>
+          <Link className="link-text" to={"/pools"}>Pools</Link>
+          <Link className="link-text" to={"/manage"}>My Pools</Link>
           <Link className="link-text" to={"/faucet"}>Faucet</Link>
         </nav>
       </div>
