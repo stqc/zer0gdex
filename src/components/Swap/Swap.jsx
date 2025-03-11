@@ -148,6 +148,7 @@ export const TokenSelector = ({ token, setToken,updateToken, width }) => {
     {name:"USDT", address:'0x9A87C2412d500343c073E5Ae5394E3bE3874F76b',decimals:18},
     {name:"BTC",address:'0x1e0d871472973c562650e991ed8006549f8cbefc',decimals:18},
     {name:'ETH',address:"0xce830D0905e0f7A9b300401729761579c5FB6bd6",decimals:18},
+    {name:'A0GI', address:"0x493eA9950586033eA8894B5E684bb4DF6979A0D3",decimals:18},
  ]);
 
   const setCurrentToken = (token) => {
